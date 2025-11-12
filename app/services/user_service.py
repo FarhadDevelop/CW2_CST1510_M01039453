@@ -1,9 +1,39 @@
 import sqlite3
+import bcrypt
 from pathlib import Path
 
 # Define the path to the database
 DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
 DB_PATH = DATA_DIR / "intelligence_platform.db"
+
+def register_user(username, password, role="user"):
+    """ Register a new user in the database. """
+    # Validate input
+    if not username or not password:
+        return False, "Username and password are required."
+    
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    
+    # Check if username already exists
+    cursor.execute("SELECT 1 FROM users WHERE username = ?", (username,))
+    if cursor.fetchone():
+        conn.close()
+        return False, f"Username '{username}' already exists."
+    
+    # Hash the password
+    password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+    password_hash_str = password_hash.decode("utf-8")
+    
+    # Insert new user
+    cursor.execute(
+        "INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
+        (username, password_hash_str, role)
+    )
+    conn.commit()
+    conn.close()
+    
+    return True, f"User '{username}' registered successfully with role '{role}'."
 
 def migrate_users_from_file(conn, filepath=DATA_DIR / "users.txt"):
     """Migrate users from users.txt to the database."""
