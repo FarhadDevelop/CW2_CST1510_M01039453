@@ -7,7 +7,7 @@ DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
 DB_PATH = DATA_DIR / "intelligence_platform.db"
 
 def register_user(username, password, role="user"):
-    """ Register a new user in the database. """
+    """ Register a new user in the database."""
     # Validate input
     if not username or not password:
         return False, "Username and password are required."
@@ -34,6 +34,31 @@ def register_user(username, password, role="user"):
     conn.close()
     
     return True, f"User '{username}' registered successfully with role '{role}'."
+
+def login_user(username, password):
+    """Authenticate a user against the database."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    
+    # Look up user
+    cursor.execute(
+        "SELECT password_hash, role FROM users WHERE username = ?",
+        (username,)
+    )
+    row = cursor.fetchone()
+    conn.close()
+    
+    # User not found
+    if not row:
+        return False, "User not found."
+    
+    stored_hash, role = row
+    
+    # Verify password
+    if bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8")):
+        return True, f"Login successful! Welcome {username} (role: {role})."
+    else:
+        return False, "Incorrect password."
 
 def migrate_users_from_file(conn, filepath=DATA_DIR / "users.txt"):
     """Migrate users from users.txt to the database."""
