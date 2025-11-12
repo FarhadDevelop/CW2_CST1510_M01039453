@@ -29,24 +29,24 @@ def user_exists(username):
     return False
 
 # Function to register a new user
-def register_user(username, password):
+def register_user(username, password, role="user"):
     if user_exists(username):                             # Check if username already exists
         print(f"Error: Username '{username}' already exists.")
         return False
     hashed_password = hash_password(password)             # Hash the user's password
     with open(USER_DATA_FILE, 'a') as file:
-        file.write(f"{username},{hashed_password}\n")     # Save username and hashed password
+        file.write(f"{username},{hashed_password},{role}\n")     # Save username and hashed password
     print(f"Success: User '{username}' registered successfully!")
     return True
 
 # Function to log in a user
-def login_user(username, password):
+def login_user(username, password, role="user"):
     if not os.path.exists(USER_DATA_FILE):                # No user data file found
         print("Error: No users registered yet.")
         return False
     with open(USER_DATA_FILE, 'r') as file:
         for line in file:
-            stored_username, stored_hash = line.strip().split(',')
+            stored_username, stored_hash, stored_role = line.strip().split(',')
             if stored_username == username:               # If username matches
                 if verify_password(password, stored_hash):
                     print(f"Success: Welcome, {username}!")   # Successful login
@@ -103,7 +103,7 @@ def main():
             if password != password_confirm:
                 print("Error: Passwords do not match.")
                 continue
-            register_user(username, password)
+            register_user(username, password, role="user")
 
         elif choice == '2':  # Login option
             print("\n--- USER LOGIN ---")
