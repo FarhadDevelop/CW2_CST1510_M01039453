@@ -1,11 +1,12 @@
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path("/home/farhad/Documents/CW2_CST1510_M01039453/DATA/intelligence_platform.db")    
+DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
+DB_PATH = DATA_DIR / "intelligence_platform.db"  
 
 def connect_database(db_path=DB_PATH):
     """Connect to the SQLite database."""
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(str(db_path))
     return conn
 
 # Test the connection
