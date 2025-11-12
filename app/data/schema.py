@@ -28,11 +28,12 @@ def create_cyber_incidents_table(conn):
     """Create the cyber_incidents table."""
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS cyber_incidents (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
+        incident_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        timestamp TEXT NOT NULL,
+        description TEXT NOT NULL,
         severity TEXT NOT NULL,
-        status TEXT DEFAULT 'open',
-        date TEXT
+        category TEXT,
+        status TEXT DEFAULT 'open'
     );
     """
 
@@ -45,11 +46,12 @@ def create_datasets_metadata_table(conn):
     """Create the datasets_metadata table."""
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS datasets_metadata (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        source TEXT,
-        category TEXT,
-        size INTEGER
+        rows INTEGER,
+        columns INTEGER,
+        uploaded_by TEXT,
+        upload_date TEXT
     );
     """
 
@@ -62,11 +64,13 @@ def create_it_tickets_table(conn):
     """Create the it_tickets table."""
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS it_tickets (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
+        ticket_id INTEGER PRIMARY KEY AUTOINCREMENT,
         priority TEXT NOT NULL,
+        description TEXT NOT NULL,
         status TEXT DEFAULT 'open',
-        created_date TEXT
+        assigned_to TEXT,
+        created_at TEXT NOT NULL,
+        resolution_time_hours INTEGER
     );
     """
 
@@ -82,6 +86,12 @@ def create_all_tables(conn):
     create_datasets_metadata_table(conn)
     create_it_tickets_table(conn)
     print("\nAll tables created successfully.")
+
+
+
+
+
+
 
 
 
