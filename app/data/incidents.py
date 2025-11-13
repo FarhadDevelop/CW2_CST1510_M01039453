@@ -1,12 +1,3 @@
-import sqlite3
-import pandas as pd
-from app.data.db import connect_database
-from pathlib import Path
-
-# Define the path to the data directory and database
-DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
-DB_PATH = DATA_DIR / "intelligence_platform.db"
-
 def insert_incident(conn, timestamp, category, severity, status, description):
     """Insert a new incident into the incidents table."""
     cursor = conn.cursor()
