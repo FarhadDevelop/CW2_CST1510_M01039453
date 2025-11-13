@@ -1,5 +1,6 @@
 import sqlite3
 import pandas as pd
+from app.data.db import connect_database
 from pathlib import Path
 
 # Define the path to the data directory and database
