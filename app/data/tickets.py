@@ -1,18 +1,10 @@
-def insert_ticket(ticket_data):
+def insert_ticket(priority, description, status, assigned_to, created_at, resolution_time_hours):
     conn = connect_database(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO tickets (ticket_id, priority, description, status, assigned_to, created_at, resolution_time_hours)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, (
-        ticket_data['ticket_id'],
-        ticket_data['priority'],
-        ticket_data['description'],
-        ticket_data['status'],
-        ticket_data['assigned_to'],
-        ticket_data['created_at'],
-        ticket_data['resolution_time_hours']
-    ))
+        INSERT INTO tickets (priority, description, status, assigned_to, created_at, resolution_time_hours)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (priority, description, status, assigned_to, created_at, resolution_time_hours))
     conn.commit()
     conn.close()
 
@@ -22,22 +14,14 @@ def get_all_tickets():
     conn.close()
     return df
 
-def update_ticket(ticket_id, update_data):
+def update_ticket_status(ticket_id, new_status):
     conn = connect_database(DB_PATH)
     cursor = conn.cursor()
     cursor.execute("""
         UPDATE tickets
-        SET priority = ?, description = ?, status = ?, assigned_to = ?, created_at = ?, resolution_time_hours = ?
+        SET status = ?
         WHERE ticket_id = ?
-    """, (
-        update_data['priority'],
-        update_data['description'],
-        update_data['status'],
-        update_data['assigned_to'],
-        update_data['created_at'],
-        update_data['resolution_time_hours'],
-        ticket_id
-    ))
+    """, (new_status, ticket_id))
     conn.commit()
     conn.close()
 
