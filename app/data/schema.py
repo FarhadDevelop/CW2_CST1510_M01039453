@@ -1,13 +1,3 @@
-import sqlite3
-from pathlib import Path
-
-# Define the path to the database
-DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
-DB_PATH = DATA_DIR / "intelligence_platform.db"
-
-# Import the connect_database function from db.py
-from db import connect_database
-
 def create_users_table(conn):
     """Create the users table."""
     create_table_sql = """
