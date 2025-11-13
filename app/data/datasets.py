@@ -1,3 +1,6 @@
+import sqlite3
+from app.data.db import connect_database
+
 def create_dataset_metadata(conn, name, rows, columns, uploaded_by, upload_date):
     cursor = conn.cursor()
     cursor.execute("""

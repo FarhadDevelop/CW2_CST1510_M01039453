@@ -1,3 +1,11 @@
+import sqlite3
+import pandas as pd
+from app.data.db import connect_database
+from pathlib import Path
+
+DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
+DB_PATH = DATA_DIR / "intelligence_platform.db"
+
 def insert_ticket(priority, description, status, assigned_to, created_at, resolution_time_hours):
     conn = connect_database(DB_PATH)
     cursor = conn.cursor()
