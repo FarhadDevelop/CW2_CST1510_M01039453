@@ -1,9 +1,6 @@
 import sqlite3
 from pathlib import Path
 from app.data.db import connect_database
-    
-DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
-DB_PATH = DATA_DIR / "intelligence_platform.db"
 
 def insert_user(username, password_hash, role='user'):
     """Insert new user."""
