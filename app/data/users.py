@@ -1,16 +1,6 @@
 import sqlite3
 from app.data.db import connect_database
 
-def insert_user(username, password_hash, role='user'):
-    """Insert new user."""
-    conn = connect_database()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
-                  (username, password_hash, role)
-    )
-    conn.commit()
-    conn.close()
-
 def get_user_by_username(username):
     """Retrieve user by username."""
     conn = connect_database()
