@@ -37,18 +37,14 @@ Implementation of a persistent SQLite database layer to manage multi-domain inte
 - Migration of file-based users (`users.txt`) into the users table
 - Bulk CSV import for three domains using pandas
 - CRUD operations for each domain
-- Quick data inspection via pandas.read_sql_query for tabular output and verification
+- Quick data inspection via `pandas.read_sql_query` for tabular output and verification
 
 ## Technical Implementation
 - Database: SQLite file at DATA folder
-- Connection helper: app.data.db.connect_database() — wraps sqlite3.connect with a canonical DB path
-- Schema creation: app.data.schema contains functions that create tables with the following structure:
-  - users: id (PK), username (TEXT UNIQUE), password_hash (TEXT), role (TEXT default 'user')
-  - cyber_incidents: incident_id (PK), timestamp (TEXT), description (TEXT), severity (TEXT), category (TEXT), status (TEXT default 'open')
-  - datasets_metadata: dataset_id (PK), name (TEXT), rows (INTEGER), columns (INTEGER), uploaded_by (TEXT), upload_date (TEXT)
-  - it_tickets: ticket_id (PK), priority (TEXT), description (TEXT), status (TEXT default 'open'), assigned_to (TEXT), created_at (TEXT), resolution_time_hours (INTEGER)
-- User migration: app.services.user_service.migrate_users_from_file(conn, filepath=DATA_DIR / "users.txt") reads users.txt (skips comments/empty lines), parses CSV fields, and inserts parameterized rows into the users table (handles UNIQUE conflicts)
+- Connection helper: `app.data.db.connect_database()` — wraps sqlite3.connect with a canonical DB path
+- Schema creation: `app.data.schema` contains functions that create tables
+- User migration: `app.services.user_service.migrate_users_from_file(conn, filepath=DATA_DIR / "users.txt")` reads `users.txt` (skips comments/empty lines), parses CSV fields, and inserts parameterized rows into the users table (handles UNIQUE conflicts)
 - Passwords: bcrypt hashing used in app.services.user_service.register_user and login_user (no plaintext stored)
-- CSV loading: main.load_csv_to_table reads each CSV with pandas, cleans column names, and uses df.to_sql(..., if_exists='append', index=False) to load rows into the matching tables. Expected CSV files are located under CW2_CST1510_M01039453/DATA: cyber_incidents.csv, datasets_metadata.csv, it_tickets.csv
-- Data access modules: Each domain has a focused module (app.data.users, app.data.incidents, app.data.datasets, app.data.tickets) exposing small, testable functions to perform CRUD operations and return results (rows, dataframes, or boolean status)
-- Utilities & examples: main.py demonstrates end-to-end usage — connect, create tables, migrate users, import CSVs, insert/update/delete records, and print tables for verification using pandas
+- CSV loading: `main.load_csv_to_table` reads each CSV with pandas, cleans column names, and uses `df.to_sql(..., if_exists='append', index=False)` to load rows into the matching tables
+- Data access packages: Each domain has a focused module (`app.data.users`, `app.data.incidents`, `app.data.datasets`, `app.data.tickets`) exposing small, testable functions to perform CRUD operations and return results (rows, dataframes, or boolean status)
+- Utilities & examples: `main.py` demonstrates end-to-end usage — connect, create tables, migrate users, import CSVs, insert/update/delete records, and print tables for verification using pandas
