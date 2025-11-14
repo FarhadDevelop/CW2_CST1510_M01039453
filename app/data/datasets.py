@@ -20,7 +20,7 @@ def update_dataset_uploaded_by(conn, dataset_id, new_uploaded_by):
     cursor.execute("""
         UPDATE datasets_metadata
         SET uploaded_by = ?
-        WHERE id = ?
+        WHERE dataset_id = ?
     """, (new_uploaded_by, dataset_id))
     conn.commit()
     return cursor.rowcount
