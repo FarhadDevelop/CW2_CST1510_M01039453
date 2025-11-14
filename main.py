@@ -14,13 +14,13 @@ def main():
 
     # Insert a user
     insert_user(conn, 'bob', '$2y$10$92ns1le0rk6TUqIzxYWp/.TRQOGCoCUzm7ElT.ap06Z5dLWEZuKOS', 'analyst')
-    print("Inserted User:")
+    print("\nInserted User:")
     inserted_user = get_user_by_username('bob')
     print(inserted_user)
 
     # Display all users
     user_by_username = get_user_by_username('bob')
-    print("User Retrieved by Username:")
+    print("\nUser Retrieved by Username:")
     print(user_by_username)
 
     # Update user role
@@ -91,7 +91,7 @@ def main():
 
     # Retrieve and display all tickets
     tickets_df = get_all_tickets()
-    print("All Tickets:")
+    print("\nAll Tickets:")
     print(tickets_df)
 
     # Update ticket status
