@@ -13,7 +13,7 @@ def main():
     conn = connect_database()
 
     # Insert a user
-    insert_user(conn, 'bob', '$2y$10$92ns1le0rk6TUqIzxYWp/.TRQOGCoCUzm7ElT.ap06Z5dLWEZuKOS', 'analyst')
+    insert_user('bob', '$2y$10$92ns1le0rk6TUqIzxYWp/.TRQOGCoCUzm7ElT.ap06Z5dLWEZuKOS', 'analyst')
     print("\nInserted User:")
     inserted_user = get_user_by_username('bob')
     print(inserted_user)
