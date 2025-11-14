@@ -1,6 +1,7 @@
 import sqlite3
 import bcrypt
 from pathlib import Path
+from app.data.db import connect_database
 
 # Define the path to the database
 DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
@@ -12,7 +13,7 @@ def register_user(username, password, role="user"):
     if not username or not password:
         return False, "Username and password are required."
     
-    conn = sqlite3.connect(DB_PATH)
+    conn = connect_database()
     cursor = conn.cursor()
     
     # Check if username already exists
@@ -37,7 +38,7 @@ def register_user(username, password, role="user"):
 
 def login_user(username, password):
     """Authenticate a user against the database."""
-    conn = sqlite3.connect(DB_PATH)
+    conn = connect_database()
     cursor = conn.cursor()
     
     # Look up user
