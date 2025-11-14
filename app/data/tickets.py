@@ -6,7 +6,7 @@ def insert_ticket(priority, description, status, assigned_to, created_at, resolu
     conn = connect_database()
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO tickets (priority, description, status, assigned_to, created_at, resolution_time_hours)
+        INSERT INTO it_tickets (priority, description, status, assigned_to, created_at, resolution_time_hours)
         VALUES (?, ?, ?, ?, ?, ?)
     """, (priority, description, status, assigned_to, created_at, resolution_time_hours))
     conn.commit()
@@ -14,7 +14,7 @@ def insert_ticket(priority, description, status, assigned_to, created_at, resolu
 
 def get_all_tickets():
     conn = connect_database()
-    df = pd.read_sql_query("SELECT * FROM tickets", conn)
+    df = pd.read_sql_query("SELECT * FROM it_tickets", conn)
     conn.close()
     return df
 
@@ -22,7 +22,7 @@ def update_ticket_status(ticket_id, new_status):
     conn = connect_database()
     cursor = conn.cursor()
     cursor.execute("""
-        UPDATE tickets
+        UPDATE it_tickets
         SET status = ?
         WHERE ticket_id = ?
     """, (new_status, ticket_id))
@@ -32,7 +32,7 @@ def update_ticket_status(ticket_id, new_status):
 def delete_ticket(ticket_id):
     conn = connect_database()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM tickets WHERE ticket_id = ?", (ticket_id,))
+    cursor.execute("DELETE FROM it_tickets WHERE ticket_id = ?", (ticket_id,))
     
     conn.commit()
     conn.close()
