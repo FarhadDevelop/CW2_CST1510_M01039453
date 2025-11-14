@@ -27,7 +27,7 @@ def update_dataset_uploaded_by(conn, dataset_id, new_uploaded_by):
 
 def delete_dataset_metadata(conn, dataset_id):
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM datasets_metadata WHERE id = ?", (dataset_id,))
+    cursor.execute("DELETE FROM datasets_metadata WHERE dataset_id = ?", (dataset_id,))
     conn.commit()
     return cursor.rowcount
 
