@@ -1,10 +1,73 @@
 import sqlite3
 import pandas as pd
+from pathlib import Path
 from app.data.db import connect_database
+from app.data.schema import create_all_tables
+from app.services.user_service import migrate_users_from_file, register_user
 from app.data.users import insert_user, get_user_by_username, update_user_role, delete_user
 from app.data.incidents import insert_incident, get_all_incidents, update_incident_status, delete_incident
 from app.data.datasets import create_dataset_metadata, get_all_datasets_metadata, update_dataset_uploaded_by, delete_dataset_metadata
 from app.data.tickets import insert_ticket, get_all_tickets, update_ticket_status, delete_ticket
+
+# Define paths
+DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
+DB_PATH = DATA_DIR / "intelligence_platform.db"
+
+def load_csv_to_table(conn, csv_path, table_name):
+    """Load a CSV file into a database table using pandas."""
+    path = Path(csv_path)
+    
+    # Check if file exists
+    if not path.exists():
+        print(f" Warning: {csv_path} not found. Skipping.")
+        return 0
+    
+    # Read CSV into DataFrame
+    df = pd.read_csv(path)
+    
+    # Clean column names (remove extra whitespace)
+    df.columns = df.columns.str.strip()
+    
+    # Preview data
+    print(f"\n Loading {csv_path}...")
+    print(f"   Columns: {list(df.columns)}")
+    print(f"   Rows: {len(df)}")
+    
+    # Load into database
+    df.to_sql(table_name, conn, if_exists='append', index=False)
+    
+    print(f"    Loaded {len(df)} rows into '{table_name}' table.")
+    return len(df)
+
+def load_all_csv_data(conn):
+    """Load all three domain CSV files into the database."""
+    print("\n Starting CSV data loading...")
+    
+    total_rows = 0
+    
+    # Load cyber incidents
+    total_rows += load_csv_to_table(
+        conn,
+        DATA_DIR / "cyber_incidents.csv",
+        "cyber_incidents"
+    )
+    
+    # Load datasets metadata
+    total_rows += load_csv_to_table(
+        conn,
+        DATA_DIR / "datasets_metadata.csv",
+        "datasets_metadata"
+    )
+    
+    # Load IT tickets
+    total_rows += load_csv_to_table(
+        conn,
+        DATA_DIR / "it_tickets.csv",
+        "it_tickets"
+    )
+    
+    print(f"\nTotal rows loaded: {total_rows}")
+    return total_rows
 
 def main():
     """Main function to test all CRUD operations for users, cyber_incidents, datasets_metadata, and it_tickets tables in the database."""
@@ -12,11 +75,50 @@ def main():
     # Connect to the database
     conn = connect_database()
 
-    # Insert a user
-    insert_user('bob', '$2y$10$92ns1le0rk6TUqIzxYWp/.TRQOGCoCUzm7ElT.ap06Z5dLWEZuKOS', 'analyst')
-    print("\nInserted User:")
-    inserted_user = get_user_by_username('bob')
-    print(inserted_user)
+    # Create all tables
+    create_all_tables(conn)
+
+    # Migrate users from file
+    migrate_users_from_file(conn)
+
+    # Load all CSV data into the database
+    load_all_csv_data(conn)
+    print("\nCSV Data Loaded Successfully.")
+    
+    # Display all users
+    print("\nAll Users:")
+    users_df = pd.read_sql_query("SELECT * FROM users", conn)
+    print(users_df)
+
+    # Display all cyber incidents
+    print("\nAll Cyber Incidents:")
+    incidents_df = pd.read_sql_query("SELECT * FROM cyber_incidents", conn)
+    print(incidents_df)
+
+    # Display all datasets metadata
+    print("\nAll Datasets Metadata:")
+    datasets_df = pd.read_sql_query("SELECT * FROM datasets_metadata", conn)
+    print(datasets_df)
+
+    # Display all IT tickets
+    print("\nAll IT Tickets:")
+    tickets_df = pd.read_sql_query("SELECT * FROM it_tickets", conn)
+    print(tickets_df)
+
+    # Register a new user
+    success, message = register_user('charlie', '!like@apples', 'analyst')
+    print("\nUser Registration:")
+    print(message)
+
+    print("\nAll Users After Registration:")
+    users_df = pd.read_sql_query("SELECT * FROM users", conn)
+    print(users_df)
+
+    # Insert a new user
+    insert_user('bob', 'hashed_password_123', 'analyst')
+    print("\nInserted New User:")
+    users_df = pd.read_sql_query("SELECT * FROM users", conn)
+    print(users_df)
 
     # Display all users
     user_by_username = get_user_by_username('bob')
@@ -105,6 +207,8 @@ def main():
     print("\nTickets after Deletion:")
     tickets_df = get_all_tickets()
     print(tickets_df)
+
+    print("\nAll CRUD operations completed successfully.")
 
     # Close the database connection
     conn.close()
