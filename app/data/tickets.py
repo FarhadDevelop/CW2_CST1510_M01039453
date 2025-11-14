@@ -1,7 +1,6 @@
 import sqlite3
 import pandas as pd
 from app.data.db import connect_database
-from pathlib import Path
 
 def insert_ticket(priority, description, status, assigned_to, created_at, resolution_time_hours):
     conn = connect_database()
