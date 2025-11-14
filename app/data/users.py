@@ -1,5 +1,4 @@
 import sqlite3
-from pathlib import Path
 from app.data.db import connect_database
 
 def insert_user(username, password_hash, role='user'):
