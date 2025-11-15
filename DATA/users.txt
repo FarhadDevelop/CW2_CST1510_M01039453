@@ -1,1 +1,0 @@
-alice,$2b$12$4vTtpdksnnXqsk8GLSJLuu3zvMxE5WhwyOXWTJv4f1IGpCjAEF99S,user
