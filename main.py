@@ -148,7 +148,7 @@ def main():
     print(incidents_df)
 
     # Update incident status
-    update_incident_status(conn, 1001, 'In Progress')
+    update_incident_status(conn, 1000, 'Resolved')
     print("\nUpdated Incident Status:")
     incidents_df = get_all_incidents(conn)
     print(incidents_df)
