@@ -47,9 +47,13 @@ def user_exists(username):
     """
     if not os.path.exists(USER_DATA_FILE):                # If file doesn't exist, no users exist
         return False
+    
     with open(USER_DATA_FILE, 'r') as file:
         for line in file:
-            stored_username, _ = line.strip().split(',')  # Split username and password
+            parts = line.strip().split(',')
+            if len(parts) < 3:
+                continue                                  # Skip malformed lines
+            stored_username, _, _ = parts                 # Extract stored username
             if stored_username == username:               # Check if username matches
                 return True
     return False
@@ -91,7 +95,12 @@ def login_user(username, password):
         return False
     with open(USER_DATA_FILE, 'r') as file:
         for line in file:
-            stored_username, stored_hash = line.strip().split(',')
+            parts = line.strip().split(',')
+            if len(parts) < 3:
+                continue                                  # Skip malformed lines
+            
+            stored_username, stored_hash, _ = parts
+
             if stored_username == username:               # If username matches
                 if verify_password(password, stored_hash):
                     print(f"Success: Welcome, {username}!")   # Successful login
@@ -99,6 +108,7 @@ def login_user(username, password):
                 else:
                     print("Error: Invalid password.")         # Password incorrect
                     return False
+                
     print("Error: Username not found.")                   # Username doesn't exist
     return False
 
