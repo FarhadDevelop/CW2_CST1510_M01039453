@@ -1,5 +1,10 @@
 def create_users_table(conn):
-    """Create the users table."""
+    """
+    Create the users table.
+
+    Args:
+        conn (sqlite3.Connection): The database connection.
+    """
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,7 +20,12 @@ def create_users_table(conn):
     print("Users table created successfully.")
 
 def create_cyber_incidents_table(conn):
-    """Create the cyber_incidents table."""
+    """
+    Create the cyber_incidents table.
+    
+    Args:
+        conn (sqlite3.Connection): The database connection.
+    """
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS cyber_incidents (
         incident_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +43,12 @@ def create_cyber_incidents_table(conn):
     print("Cyber incidents table created successfully.")
 
 def create_datasets_metadata_table(conn):
-    """Create the datasets_metadata table."""
+    """
+    Create the datasets_metadata table.
+
+    Args:
+        conn (sqlite3.Connection): The database connection.
+    """
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS datasets_metadata (
         dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +66,12 @@ def create_datasets_metadata_table(conn):
     print("Datasets metadata table created successfully.")
 
 def create_it_tickets_table(conn):
-    """Create the it_tickets table."""
+    """
+    Create the it_tickets table.
+
+    Args:
+        conn (sqlite3.Connection): The database connection.
+    """
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS it_tickets (
         ticket_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,7 +90,12 @@ def create_it_tickets_table(conn):
     print("IT tickets table created successfully.")
 
 def create_all_tables(conn):
-    """Create all tables in the database."""
+    """
+    Create all necessary tables in the database.
+
+    Args:
+        conn (sqlite3.Connection): The database connection.
+    """
     create_users_table(conn)
     create_cyber_incidents_table(conn)
     create_datasets_metadata_table(conn)
