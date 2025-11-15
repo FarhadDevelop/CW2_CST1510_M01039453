@@ -8,7 +8,17 @@ DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
 DB_PATH = DATA_DIR / "intelligence_platform.db"
 
 def register_user(username, password, role="user"):
-    """ Register a new user in the database."""
+    """ 
+    Register a new user in the database.
+    
+    Args:
+        username (str): The desired username.
+        password (str): The plain text password.
+        role (str): The role of the user (default is "user").
+    
+    Returns:
+        tuple: (bool, str) indicating success status and message.
+    """
     # Validate input
     if not username or not password:
         return False, "Username and password are required."
@@ -37,7 +47,16 @@ def register_user(username, password, role="user"):
     return True, f"User '{username}' registered successfully with role '{role}'."
 
 def login_user(username, password):
-    """Authenticate a user against the database."""
+    """
+    Authenticate a user with the given username and password.
+    
+    Args:
+        username (str): The username of the user.
+        password (str): The plain text password of the user.
+
+    Returns:
+        tuple: (bool, str) indicating success status and message.
+    """
     conn = connect_database()
     cursor = conn.cursor()
     
@@ -62,7 +81,16 @@ def login_user(username, password):
         return False, "Incorrect password."
 
 def migrate_users_from_file(conn, filepath=DATA_DIR / "users.txt"):
-    """Migrate users from users.txt to the database."""
+    """
+    Migrate users from a text file to the database.
+
+    Args:
+        conn (sqlite3.Connection): The database connection.
+        filepath (str or Path): The path to the user data file.
+    
+    Returns:
+        int: The number of users migrated.
+    """
     path = Path(filepath)
     
     # Check if file exists
