@@ -14,7 +14,17 @@ DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
 DB_PATH = DATA_DIR / "intelligence_platform.db"
 
 def load_csv_to_table(conn, csv_path, table_name):
-    """Load a CSV file into a database table using pandas."""
+    """
+    Load a CSV file into a specified database table.
+
+    Args:
+        conn (sqlite3.Connection): The database connection.
+        csv_path (Path): The path to the CSV file.
+        table_name (str): The name of the database table to load data into.
+    
+    Returns:
+        int: The number of rows loaded.
+    """
     path = Path(csv_path)
     
     # Check if file exists
@@ -40,7 +50,15 @@ def load_csv_to_table(conn, csv_path, table_name):
     return len(df)
 
 def load_all_csv_data(conn):
-    """Load all three domain CSV files into the database."""
+    """
+    Load all CSV data files into their respective database tables.
+
+    Args:
+        conn (sqlite3.Connection): The database connection.
+    
+    Returns:
+        int: The total number of rows loaded across all tables.
+    """
     print("\n Starting CSV data loading...")
     
     total_rows = 0
@@ -70,6 +88,7 @@ def load_all_csv_data(conn):
     return total_rows
 
 def main():
+    """Main function to demonstrate database operations."""
     print("=" * 60)
     print("Week 8: Database Demo")
     print("=" * 60)
