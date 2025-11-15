@@ -231,6 +231,7 @@ def main():
     # Close the database connection
     conn.close()
 
+# Run the main function
 if __name__ == "__main__":
     main()
 
