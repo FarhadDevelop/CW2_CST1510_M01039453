@@ -83,10 +83,10 @@ def main():
 
     # Test authentication
     success, msg = register_user('nathan', '!like@pizza')
-    print(msg)
+    print(f"\n{msg}")
 
     success, msg = login_user('nathan', '!like@pizza')
-    print(msg)
+    print(f"\n{msg}")
 
     # Load all CSV data into the database
     load_all_csv_data(conn)
