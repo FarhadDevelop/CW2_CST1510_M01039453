@@ -81,6 +81,8 @@ def main():
 
     # Migrate users from file
     migrate_users_from_file(conn)
+    count = migrate_users_from_file(conn)
+    print(f"\nMigrated {count} users from file.")
 
     # Test authentication
     success, msg = register_user('nathan', '!like@pizza')
