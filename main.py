@@ -77,7 +77,6 @@ def main():
     # Setup database
     conn = connect_database()
     create_all_tables(conn)
-    print("\nDatabase and tables created successfully.")
 
     # Migrate users from file
     migrate_users_from_file(conn)
