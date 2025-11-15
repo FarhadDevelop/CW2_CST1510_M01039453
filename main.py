@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 from app.data.db import connect_database
 from app.data.schema import create_all_tables
-from app.services.user_service import migrate_users_from_file, register_user
+from app.services.user_service import migrate_users_from_file, register_user, login_user
 from app.data.users import insert_user, get_user_by_username, update_user_role, delete_user
 from app.data.incidents import insert_incident, get_all_incidents, update_incident_status, delete_incident
 from app.data.datasets import create_dataset_metadata, get_all_datasets_metadata, update_dataset_uploaded_by, delete_dataset_metadata
@@ -70,16 +70,24 @@ def load_all_csv_data(conn):
     return total_rows
 
 def main():
-    """Main function to test all CRUD operations for users, cyber_incidents, datasets_metadata, and it_tickets tables in the database."""
+    print("=" * 60)
+    print("Week 8: Database Demo")
+    print("=" * 60)
 
-    # Connect to the database
+    # Setup database
     conn = connect_database()
-
-    # Create all tables
     create_all_tables(conn)
+    print("\nDatabase and tables created successfully.")
 
     # Migrate users from file
     migrate_users_from_file(conn)
+
+    # Test authentication
+    success, msg = register_user('nathan', '!like@pizza')
+    print(msg)
+
+    success, msg = login_user('nathan', '!like@pizza')
+    print(msg)
 
     # Load all CSV data into the database
     load_all_csv_data(conn)
@@ -104,15 +112,6 @@ def main():
     print("\nAll IT Tickets:")
     tickets_df = pd.read_sql_query("SELECT * FROM it_tickets", conn)
     print(tickets_df)
-
-    # Register a new user
-    success, message = register_user('charlie', '!like@apples', 'analyst')
-    print("\nUser Registration:")
-    print(message)
-
-    print("\nAll Users After Registration:")
-    users_df = pd.read_sql_query("SELECT * FROM users", conn)
-    print(users_df)
 
     # Insert a new user
     insert_user('bob', 'hashed_password_123', 'analyst')
@@ -208,7 +207,8 @@ def main():
     tickets_df = get_all_tickets()
     print(tickets_df)
 
-    print("\nAll CRUD operations completed successfully.")
+    # Save changes
+    conn.commit()
 
     # Close the database connection
     conn.close()
