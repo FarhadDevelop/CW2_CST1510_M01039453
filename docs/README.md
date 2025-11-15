@@ -28,23 +28,36 @@ A command-line authentication system implementing secure password hashing. This 
 - Course: CST1510 - CW2 - Multi-Domain Intelligence Platform
 
 ## Project Description
-Implementation of a persistent SQLite database layer to manage multi-domain intelligence data (users, cyber incidents, datasets metadata, IT tickets). The database layer provides schema creation, migration from legacy file storage, bulk CSV imports, and programmatic CRUD operations used by the application.
+Introduce a SQLite-backed database layer and CSV ingestion pipeline to persist multi-domain intelligence data (cyber incidents, datasets metadata, IT tickets) and integrate the authentication/user data into the database. The main entrypoint sets up the database, migrates users from file storage, demonstrates authentication calls, and loads CSV domain data into database tables.
 
 ## Features
-- SQLite database
-- Database connection helper for consistent connections
-- Schema creation utilities to create all required tables programmatically
-- Migration of file-based users (`users.txt`) into the users table
-- Bulk CSV import for three domains using pandas
-- CRUD operations for each domain
-- Quick data inspection via `pandas.read_sql_query` for tabular output and verification
+- SQLite database (`intelligence_platform.db`) for centralized storage
+- Database schema creation and migration via app.data.schema
+- User migration from legacy file-based storage into the users table
+- Authentication service usage (`register_user`, `login_user`) integrated with the DB-backed users
+- CSV ingestion pipeline using `pandas`: loads `cyber_incidents.csv`, `datasets_metadata.csv`, `it_tickets.csv` into corresponding tables
+- CRUD operations exposed for users, incidents, datasets, and tickets via `app.data` modules
+- Example data insertions, queries, updates, and deletions shown in `main.py` for testing
 
 ## Technical Implementation
-- Database: SQLite file at DATA folder
-- Connection helper: `app.data.db.connect_database()` — wraps sqlite3.connect with a canonical DB path
-- Schema creation: `app.data.schema` contains functions that create tables
-- User migration: `app.services.user_service.migrate_users_from_file(conn, filepath=DATA_DIR / "users.txt")` reads `users.txt` (skips comments/empty lines), parses CSV fields, and inserts parameterized rows into the users table (handles UNIQUE conflicts)
-- Passwords: bcrypt hashing used in app.services.user_service.register_user and login_user (no plaintext stored)
-- CSV loading: `main.load_csv_to_table` reads each CSV with pandas, cleans column names, and uses `df.to_sql(..., if_exists='append', index=False)` to load rows into the matching tables
-- Data access packages: Each domain has a focused module (`app.data.users`, `app.data.incidents`, `app.data.datasets`, `app.data.tickets`) exposing small, testable functions to perform CRUD operations and return results (rows, dataframes, or boolean status)
-- Utilities & examples: `main.py` demonstrates end-to-end usage — connect, create tables, migrate users, import CSVs, insert/update/delete records, and print tables for verification using pandas
+- Database: SQLite accessed via `sqlite3`; database file located at DATA folder
+- Schema: Tables are created by `app.data.schema.create_all_tables(conn)`
+- DB Connection: Obtained through `app.data.db.connect_database()`
+- CSV Loading: `pd.read_csv` reads CSVs, cleans column names, and uses `DataFrame.to_sql(..., if_exists='append', index=False)` to populate tables
+- Data Files converted into Tables:
+  - /DATA/cyber_incidents.csv -> table `cyber_incidents`
+  - /DATA/datasets_metadata.csv -> table `datasets_metadata`
+  - /DATA/it_tickets.csv -> table `it_tickets`
+- Services and Modules:
+  - `app.services.user_service`: `migrate_users_from_file`, `register_user`, `login_user`
+  - `app.data.users`: `insert_user`, `get_user_by_username`, `update_user_role`, `delete_user`
+  - `app.data.incidents`: `insert_incident`, `get_all_incidents`, `update_incident_status`, `delete_incident`
+  - `app.data.datasets`: `create_dataset_metadata`, `get_all_datasets_metadata`, `update_dataset_uploaded_by`, `delete_dataset_metadata`
+  - `app.data.tickets`: `insert_ticket`, `get_all_tickets`, `update_ticket_status`, `delete_ticket`
+- Testing/Demo Flow (as implemented in `main.py`):
+  - Connect and create tables
+  - Migrate users from file into DB
+  - Register and login sample user
+  - Load CSV domain data into DB tables and print row counts
+  - Demonstrate inserts, reads, updates, deletes for users, incidents, datasets, and tickets
+  - Commit and close the database connection
