@@ -4,21 +4,47 @@ import os
 # File used to store usernames and hashed passwords
 USER_DATA_FILE = "users.txt"
 
-# Function to hash a plain text password using bcrypt
 def hash_password(plain_text_password):
-    password_bytes = plain_text_password.encode('utf-8')   # Convert plain text to bytes
-    salt = bcrypt.gensalt()                               # Generate a unique salt
-    hashed = bcrypt.hashpw(password_bytes, salt)          # Hash password with salt
-    return hashed.decode('utf-8')                         # Return hashed password as a string
+    """
+    Hash a plain text password.
+    
+    Args:
+        plain_text_password (str): The plain text password to hash.
+    
+    Returns:
+        str: The hashed password as a UTF-8 string.
+    
+    """
+    password_bytes = plain_text_password.encode('utf-8')    # Convert to bytes
+    salt = bcrypt.gensalt()                                 # Generate a salt
+    hashed = bcrypt.hashpw(password_bytes, salt)            # Hash the password with the salt
+    return hashed.decode('utf-8')                           # Convert back to string
 
-# Function to verify if a plain text password matches the stored hash
 def verify_password(plain_text_password, hashed_password):
-    plain_bytes = plain_text_password.encode('utf-8')     # Convert input password to bytes
-    hash_bytes = hashed_password.encode('utf-8')          # Convert stored hash to bytes
-    return bcrypt.checkpw(plain_bytes, hash_bytes)        # Compare password and hash
+    """
+    Verify if a plain text password matches the stored hashed password.
+    
+    Args:
+        plain_text_password (str): The plain text password to verify.
+        hashed_password (str): The stored hashed password as a UTF-8 string.
+    
+    Returns:
+        bool: True if the password matches, False otherwise.
+    """
+    plain_bytes = plain_text_password.encode('utf-8')      # Convert plain text password to bytes
+    hash_bytes = hashed_password.encode('utf-8')           # Convert hashed password to bytes
+    return bcrypt.checkpw(plain_bytes, hash_bytes)         # Verify the password
 
-# Function to check if a username already exists in the file
 def user_exists(username):
+    """
+    Check if a username already exists in the user data file.
+    
+    Args:
+        username (str): The username to check.
+    
+    Returns:
+        bool: True if the username exists, False otherwise.
+    """
     if not os.path.exists(USER_DATA_FILE):                # If file doesn't exist, no users exist
         return False
     with open(USER_DATA_FILE, 'r') as file:
@@ -28,8 +54,18 @@ def user_exists(username):
                 return True
     return False
 
-# Function to register a new user
 def register_user(username, password, role="user"):
+    """
+    Register a new user by saving their username and hashed password.
+    
+    Args:
+        username (str): The username of the new user.
+        password (str): The plain text password of the new user.
+        role (str): The role of the user (default is "user").
+    
+    Returns:
+        bool: True if registration is successful, False otherwise.
+    """
     if user_exists(username):                             # Check if username already exists
         print(f"Error: Username '{username}' already exists.")
         return False
@@ -39,8 +75,18 @@ def register_user(username, password, role="user"):
     print(f"Success: User '{username}' registered successfully!")
     return True
 
-# Function to log in a user
 def login_user(username, password, role="user"):
+    """
+    Log in a user by verifying their username and password.
+
+    Args:
+        username (str): The username of the user.
+        password (str): The plain text password of the user.
+        role (str): The role of the user (default is "user").
+
+    Returns:
+        bool: True if login is successful, False otherwise.
+    """
     if not os.path.exists(USER_DATA_FILE):                # No user data file found
         print("Error: No users registered yet.")
         return False
@@ -57,20 +103,40 @@ def login_user(username, password, role="user"):
     print("Error: Username not found.")                   # Username doesn't exist
     return False
 
-# Function to validate username format
-def validate_username(username):
-    if len(username) < 3 or len(username) > 20 or not username.isalnum():
-        return False, "Username must be 3-20 alphanumeric characters."
-    return True, ""
 
-# Function to validate password format
+def validate_username(username):
+    """
+    Validate the format of a username.
+
+    Args:
+        username (str): The username to validate.
+
+    Returns:
+        tuple: (bool, str) where bool indicates if the username is valid,
+               and str provides an error message if invalid.
+    """
+    if len(username) < 3 or len(username) > 20 or not username.isalnum():      
+        return False, "Username must be 3-20 alphanumeric characters."         
+    return True, ""                                                            
+
+
 def validate_password(password):
-    if len(password) < 6:
+    """
+    Validate the format of a password.
+
+    Args:
+        password (str): The password to validate.
+
+    Returns:
+        tuple: (bool, str) where bool indicates if the password is valid,
+               and str provides an error message if invalid.
+    """
+    if len(password) < 6:                                                     
         return False, "Password must be at least 6 characters."
     return True, ""
 
-# Function to display the main menu
 def display_menu():
+    """Display the main menu options."""
     print("\n" + "="*50)
     print("  MULTI-DOMAIN INTELLIGENCE PLATFORM")
     print("  Secure Authentication System")
@@ -80,8 +146,8 @@ def display_menu():
     print("[3] Exit")
     print("-"*50)
 
-# Main function to run the program
 def main():
+    """Main program loop."""
     print("\nWelcome to the Week 7 Authentication System!")
     while True:
         display_menu()
