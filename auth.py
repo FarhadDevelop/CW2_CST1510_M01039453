@@ -75,14 +75,13 @@ def register_user(username, password, role="user"):
     print(f"Success: User '{username}' registered successfully!")
     return True
 
-def login_user(username, password, role="user"):
+def login_user(username, password):
     """
     Log in a user by verifying their username and password.
 
     Args:
         username (str): The username of the user.
         password (str): The plain text password of the user.
-        role (str): The role of the user (default is "user").
 
     Returns:
         bool: True if login is successful, False otherwise.
@@ -92,7 +91,7 @@ def login_user(username, password, role="user"):
         return False
     with open(USER_DATA_FILE, 'r') as file:
         for line in file:
-            stored_username, stored_hash, stored_role = line.strip().split(',')
+            stored_username, stored_hash = line.strip().split(',')
             if stored_username == username:               # If username matches
                 if verify_password(password, stored_hash):
                     print(f"Success: Welcome, {username}!")   # Successful login
