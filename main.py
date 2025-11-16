@@ -214,7 +214,7 @@ def main():
     print(tickets_df)
 
     # Update ticket status
-    update_ticket_status(2029, 'In Progress')
+    update_ticket_status(2002, 'Resolved')
     print("\nUpdated Ticket Status:")
     tickets_df = get_all_tickets()
     print(tickets_df)
