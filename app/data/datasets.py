@@ -1,4 +1,5 @@
 import sqlite3
+import pandas as pd
 from app.data.db import connect_database
 
 def create_dataset_metadata(conn, name, rows, columns, uploaded_by, upload_date):
@@ -32,11 +33,11 @@ def get_all_datasets_metadata(conn):
         conn (sqlite3.Connection): The database connection.
 
     Returns:
-        list: A list of all dataset metadata records.
+        pd.DataFrame: A DataFrame containing all dataset metadata records.
     """
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM datasets_metadata")
-    return cursor.fetchall()
+    query = "SELECT * FROM datasets_metadata"
+    df = pd.read_sql_query(query, conn)
+    return df
 
 def update_dataset_uploaded_by(conn, dataset_id, new_uploaded_by):
     """
