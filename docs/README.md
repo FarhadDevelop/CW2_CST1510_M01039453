@@ -28,11 +28,11 @@ A command-line authentication system implementing secure password hashing. This 
 - Course: CST1510 - CW2 - Multi-Domain Intelligence Platform
 
 ## Project Description
-Introduce a SQLite-backed database layer and CSV ingestion pipeline to persist multi-domain intelligence data (cyber incidents, datasets metadata, IT tickets) and integrate the authentication/user data into the database. The main entrypoint sets up the database, migrates users from file storage, demonstrates authentication calls, and loads CSV domain data into database tables.
+A SQLite-backed database layer and CSV ingestion pipeline that persist multi-domain intelligence data (cyber incidents, datasets metadata, IT tickets) and integrate the authentication/user data into the database. The main entrypoint sets up the database, migrates users from file storage, demonstrates authentication calls, and loads CSV domain data into database tables.
 
 ## Features
 - SQLite database (`intelligence_platform.db`) for centralized storage
-- Database schema creation and migration via app.data.schema
+- Database schema creation and migration via `app.data.schema` and `app.services.user_service`
 - User migration from legacy file-based storage into the users table
 - Authentication service usage (`register_user`, `login_user`) integrated with the DB-backed users
 - CSV ingestion pipeline using `pandas`: loads `cyber_incidents.csv`, `datasets_metadata.csv`, `it_tickets.csv` into corresponding tables
