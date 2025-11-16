@@ -70,12 +70,12 @@ def register_user(username, password, role="user"):
     Returns:
         bool: True if registration is successful, False otherwise.
     """
-    if user_exists(username):                             # Check if username already exists
+    if user_exists(username):                                    # Check if username already exists
         print(f"Error: Username '{username}' already exists.")
         return False
-    hashed_password = hash_password(password)             # Hash the user's password
+    hashed_password = hash_password(password)                    # Hash the user's password
     with open(USER_DATA_FILE, 'a') as file:
-        file.write(f"{username},{hashed_password},{role}\n")     # Save username and hashed password
+        file.write(f"{username},{hashed_password},{role}\n")     # Save username, hashed password, and role
     print(f"Success: User '{username}' registered successfully!")
     return True
 
@@ -90,18 +90,18 @@ def login_user(username, password):
     Returns:
         bool: True if login is successful, False otherwise.
     """
-    if not os.path.exists(USER_DATA_FILE):                # No user data file found
+    if not os.path.exists(USER_DATA_FILE):                   # No user data file found
         print("Error: No users registered yet.")
         return False
     with open(USER_DATA_FILE, 'r') as file:
         for line in file:
             parts = line.strip().split(',')
             if len(parts) < 3:
-                continue                                  # Skip malformed lines
+                continue                                     # Skip malformed lines
             
             stored_username, stored_hash, _ = parts
 
-            if stored_username == username:               # If username matches
+            if stored_username == username:                   # If username matches
                 if verify_password(password, stored_hash):
                     print(f"Success: Welcome, {username}!")   # Successful login
                     return True
@@ -109,7 +109,7 @@ def login_user(username, password):
                     print("Error: Invalid password.")         # Password incorrect
                     return False
                 
-    print("Error: Username not found.")                   # Username doesn't exist
+    print("Error: Username not found.")                       # Username doesn't exist
     return False
 
 
