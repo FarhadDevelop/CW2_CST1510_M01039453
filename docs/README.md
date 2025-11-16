@@ -43,7 +43,7 @@ Introduce a SQLite-backed database layer and CSV ingestion pipeline to persist m
 - Database: SQLite accessed via `sqlite3`; database file located at DATA folder
 - Schema: Tables are created by `app.data.schema.create_all_tables(conn)`
 - DB Connection: Obtained through `app.data.db.connect_database()`
-- CSV Loading: `pd.read_csv` reads CSVs, cleans column names, and uses `DataFrame.to_sql(..., if_exists='append', index=False)` to populate tables
+- CSV Loading: `pd.read_csv` reads CSVs, cleans column names, and uses `df.to_sql(..., if_exists='append', index=False)` to populate tables
 - Data Files converted into Tables:
   - /DATA/cyber_incidents.csv -> table `cyber_incidents`
   - /DATA/datasets_metadata.csv -> table `datasets_metadata`
