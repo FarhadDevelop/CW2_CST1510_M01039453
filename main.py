@@ -1,9 +1,8 @@
-import sqlite3
 import pandas as pd
 from pathlib import Path
 from app.data.db import connect_database
 from app.data.schema import create_all_tables
-from app.services.user_service import bcrypt, migrate_users_from_file, register_user, login_user
+from app.services.user_service import migrate_users_from_file, register_user, login_user
 from app.data.users import insert_user, get_user_by_username, update_user_role, delete_user
 from app.data.incidents import insert_incident, get_all_incidents, update_incident_status, delete_incident
 from app.data.datasets import create_dataset_metadata, get_all_datasets_metadata, update_dataset_uploaded_by, delete_dataset_metadata
