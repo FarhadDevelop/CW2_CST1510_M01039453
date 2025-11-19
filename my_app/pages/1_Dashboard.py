@@ -23,3 +23,35 @@ st.success(f"Hello, **{st.session_state.username}**! You are logged in.")
 
 # Dashboard layout
 st.caption("This is your dashboard where you can see various metrics and data visualizations.")
+
+# Sidebar filters
+with st.sidebar:
+    st.header("Filters")
+    n_points = st.slider("Number of data points", 10, 200, 50)
+
+# Fake data
+data = pd.DataFrame(
+    np.random.randn(n_points, 3),
+    columns=["A", "B", "C"]
+)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Line chart")
+    st.line_chart(data)
+
+with col2:
+    st.subheader("Bar chart")
+    st.bar_chart(data)
+
+with st.expander("Show raw data"):
+    st.dataframe(data)
+
+# Logout button
+st.divider()
+if st.button("Log out"):
+    st.session_state.logged_in = False
+    st.session_state.username = ""
+    st.success("You have been logged out.")
+    st.switch_page("Home.py")
