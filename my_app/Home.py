@@ -57,11 +57,11 @@ with tab_register:
     if st.button("Create Account", type="primary"):
         if not new_username or not new_password or not confirm_password:
             st.error("All fields are required.")
-        elif new_password != confirm_password:
-            st.error("Passwords do not match.")
-        elif new_username in st.session_state.users:
-            st.error("Username already exists. Choose another one.")
-        else:
-            st.session_state.users[new_username] = new_password
-            st.success("Account created! You can now log in from the Login tab.")
-            st.info("Tip: Go to the Login tab and sign in with your new account.")
+    elif new_password != confirm_password:
+        st.error("Passwords do not match.")
+    elif new_username in st.session_state.users:
+        st.error("Username already exists. Choose another one.")
+    else:
+        st.session_state.users[new_username] = new_password
+        st.success("Account created! You can now log in from the Login tab.")
+        st.info("Tip: Go to the Login tab and sign in with your new account.")
