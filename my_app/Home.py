@@ -51,8 +51,8 @@ with tab_register:
 
     new_username = st.text_input("Choose a username", key="register_username")
     new_password = st.text_input("Choose a password", type="password", key="register_password")
-    new_role = st.selectbox("Select role", ["User", "Admin"], key="register_role")
     confirm_password = st.text_input("Confirm password", type="password", key="register_confirm")
+    new_role = st.selectbox("Select role", ["User", "Admin"], key="register_role")
 
     # Performing checks
     if not new_username or not new_password:
