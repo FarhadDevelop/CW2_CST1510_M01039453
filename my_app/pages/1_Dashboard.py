@@ -22,7 +22,7 @@ st.title("📊 Dashboard")
 st.success(f"Hello, **{st.session_state.username}**! You are logged in.")
 
 # Dashboard layout
-st.caption("This is your dashboard where you can see various metrics and data visualizations.")
+st.caption("This is your dashboard where you can see various metrics and data visualizations for each domain.")
 
 # Sidebar filters
 with st.sidebar:
