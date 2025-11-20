@@ -52,19 +52,15 @@ with tab_register:
     new_username = st.text_input("Enter a username", key="register_username")
     new_password = st.text_input("Enter a password", type="password", key="register_password")
     confirm_password = st.text_input("Confirm password", type="password", key="register_confirm")
-    new_role = st.selectbox("Select role", ["User", "Admin"], key="register_role")
 
     # Performing checks
     if not new_username or not new_password:
-        st.info("Please fill in all fields to register.")
+        st.warning("Please fill in all fields to register.")
     elif new_password != confirm_password:
         st.error("Passwords do not match.")
     elif new_username in st.session_state.users:
         st.error("Username already exists. Choose another one.")
     else:
-        st.session_state.users[new_username] = {
-            "password": new_password,
-            "role": new_role
-        }
+        st.session_state.users[new_username] = new_password
         st.success("Account created! You can now log in from the Login tab.")
-        st.info("Tip: go to the Login tab and sign in with your new account.")
+        st.info("Tip: Go to the Login tab and sign in with your new account.")
