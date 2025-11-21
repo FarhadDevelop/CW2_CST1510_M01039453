@@ -54,9 +54,9 @@ with tab_register:
     confirm_password = st.text_input("Confirm password", type="password", key="register_confirm")
 
     # Validation and registration
-    if st.button("Create Account", type="primary"):
+    if st.button("Create account"):
         if not new_username or not new_password:
-            st.error("All fields are required.")
+            st.warning("Please fill in all fields.")
     elif new_password != confirm_password:
         st.error("Passwords do not match.")
     elif new_username in st.session_state.users:
