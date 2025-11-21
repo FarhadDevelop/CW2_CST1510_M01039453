@@ -1,6 +1,6 @@
 import streamlit as st
 import bcrypt
-from database import DatabaseManager
+from my_app.database import DatabaseManager
 
 # Initialize database
 db = DatabaseManager("DATA/intelligence_platform.db")
@@ -14,7 +14,7 @@ if st.button("Log in"):
     password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 # Verify with database
-if db.verify_user(username, password_hash=password_hash):
+if db.verify_user(username, password_hash):
     st.session_state.logged_in = True
     st.session_state.username = username
     st.session_state.role = db.get_user_role(username)
