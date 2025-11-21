@@ -14,7 +14,7 @@ if "username" not in st.session_state:
 if not st.session_state.logged_in:
     st.error("You must be logged in to view the dashboard.")
     if st.button("Go to login page"):
-        st.switch_page("Home.py")      # back to the first page
+        st.switch_page("CW2_CST1510_M01039453/my_app/Home.py")      # back to the first page
     st.stop()
 
 # If logged in, show dashboard content
