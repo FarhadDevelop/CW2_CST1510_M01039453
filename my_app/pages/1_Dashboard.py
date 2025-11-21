@@ -1,6 +1,6 @@
 import streamlit as st
-from data.db import connect_database
-from data.incidents import get_all_incidents, insert_incident
+from app.data.db import connect_database
+from app.data.incidents import get_all_incidents, insert_incident
 
 st.set_page_config(page_title="Cyber Incidents Dashboard", page_icon="📊", layout="wide")
 
