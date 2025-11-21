@@ -7,6 +7,7 @@ class DatabaseManager:
 
     def get_user_password_hash(self, username):
         """Get user password hash from database"""
+        conn = None
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
@@ -23,6 +24,7 @@ class DatabaseManager:
 
     def get_user_role(self, username):
         """Get user role from database"""
+        conn = None
         try:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
