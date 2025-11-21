@@ -18,7 +18,7 @@ if st.button("Log in"):
             st.session_state.logged_in = True
             st.session_state.username = username
             st.success("Login successful!")
-            st.switch_page("pages/1_Dashboard.py")
+            st.switch_page("CW2_CST1510_M01039453/my_app/pages/1_Dashboard.py")
         else:
             st.error("Invalid credentials")
     else:
