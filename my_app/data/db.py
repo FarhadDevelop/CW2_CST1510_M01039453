@@ -1,7 +1,7 @@
 import sqlite3
 from pathlib import Path
 
-DATA_DIR = Path("CW2_CST1510_M01039453/DATA")
+DATA_DIR = Path("CW2_CST1510_M01039453/DATA copy")
 DB_PATH = DATA_DIR / "intelligence_platform.db"  
 
 def connect_database(db_path=DB_PATH):
