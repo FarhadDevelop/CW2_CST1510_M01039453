@@ -15,7 +15,11 @@ class DatabaseManager:
             conn.close()
             return result[0] if result else None
         except sqlite3.Error as e:
-            st.error(f"Database error: {e}")
+            print(f"Database error: {e}")
+            return None
+        finally:
+            if conn:
+                conn.close()
     
 
     def get_user_role(self, username):
@@ -29,4 +33,8 @@ class DatabaseManager:
             conn.close()
             return result[0] if result else None
         except sqlite3.Error as e:
-            st.error(f"Database error: {e}")
+            print(f"Database error: {e}")
+            return None
+        finally:
+            if conn:
+                conn.close()
