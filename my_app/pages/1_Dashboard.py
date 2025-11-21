@@ -54,4 +54,4 @@ if st.button("Log out"):
     st.session_state.logged_in = False
     st.session_state.username = ""
     st.success("You have been logged out.")
-    st.switch_page("Home.py")
+    st.switch_page("CW2_CST1510_M01039453/my_app/Home.py")
