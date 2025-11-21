@@ -1,6 +1,6 @@
 import streamlit as st
 import bcrypt
-from my_app.database import DatabaseManager
+from database import DatabaseManager
 
 # Initialize database
 db = DatabaseManager("DATA/intelligence_platform.db")
