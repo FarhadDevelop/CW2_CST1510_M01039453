@@ -18,7 +18,7 @@ if not st.session_state.logged_in:
     st.stop()
 
 # Connect to the database
-conn = connect_database("DATA/intelligence_platform.db")
+conn = connect_database("DATA copy/intelligence_platform.db")
 
 # If logged in, show dashboard content
 st.title("📊 Cyber Incidents Dashboard")
