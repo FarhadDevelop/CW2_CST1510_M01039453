@@ -10,8 +10,8 @@ username = st.text_input("Username")
 password = st.text_input("Password", type="password")
 
 if st.button("Log in"):
-    # Hash the password
-    password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    # Hash the entered password
+    password_hash = bcrypt.checkpw(password.encode('utf-8'), bcrypt.gensalt())
     # Verify with database
     if db.verify_user(username, password_hash):
         st.session_state.logged_in = True
