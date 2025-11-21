@@ -1,8 +1,8 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
+from app.data.db import connect_database
+from app.data.incidents import get_all_incidents, insert_incident
 
-st.set_page_config(page_title="Dashboard", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Cyber Incidents Dashboard", page_icon="📊", layout="wide")
 
 # Ensure state keys exist (in case user opens this page first)
 if "logged_in" not in st.session_state:
@@ -17,36 +17,35 @@ if not st.session_state.logged_in:
         st.switch_page("pages/1_Dashboard.py")      # back to the first page
     st.stop()
 
+# Connect to the database
+conn = connect_database("DATA/intelligence_platform.db")
+
 # If logged in, show dashboard content
-st.title("📊 Dashboard")
+st.title("📊 Cyber Incidents Dashboard")
 st.success(f"Hello, **{st.session_state.username}**! You are logged in.")
 
-# Dashboard layout
-st.caption("This is your dashboard where you can see various metrics and data visualizations for each domain.")
+# READ: Display all incidents in a table
+incidents = get_all_incidents(conn)
+st.subheader("All Reported Cyber Incidents")
+st.dataframe(incidents, use_container_width=True)
 
-# Sidebar filters
-with st.sidebar:
-    st.header("Filters")
-    n_points = st.slider("Number of data points", 10, 200, 50)
+# CREATE: Form to add a new incident
+st.subheader("Report a New Cyber Incident")
+with st.form("new_incident"):
+    description = st.text_area("Incident Description")
+    severity = st.selectbox("Severity Level", ["Low", "Medium", "High", "Critical"])
+    status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
+    category = st.selectbox("Category", ["Phishing", "Malware", "Misconfiguration", "DDoS", "Unauthorized Access"])
+    timestamp = st.text_input("Timestamp (YYYY-MM-DD HH:MM:SS.ffffff)")
 
-# Fake data
-data = pd.DataFrame(
-    np.random.randn(n_points, 3),
-    columns=["A", "B", "C"]
-)
+    # Form submit button
+    submitted = st.form_submit_button("Report Incident")
 
-col1, col2 = st.columns(2)
-
-with col1:
-    st.subheader("Line chart")
-    st.line_chart(data)
-
-with col2:
-    st.subheader("Bar chart")
-    st.bar_chart(data)
-
-with st.expander("Show raw data"):
-    st.dataframe(data)
+    # Handle form submission
+    if submitted:
+        insert_incident(conn, description, severity, status, category, timestamp)
+        st.success("New incident reported successfully!")
+        st.rerun()  # Refresh the page to show the new incident
 
 # Logout button
 st.divider()
