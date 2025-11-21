@@ -1,4 +1,5 @@
 import sqlite3
+import streamlit as st
 
 class DatabaseManager:
     def __init__(self, db_path):
@@ -15,11 +16,9 @@ class DatabaseManager:
             conn.close()
             return result[0] if result else None
         except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return None
+            st.error(f"Database error: {e}")
         finally:
-            if conn:
-                conn.close()
+            conn.close()
     
 
     def get_user_role(self, username):
@@ -33,8 +32,6 @@ class DatabaseManager:
             conn.close()
             return result[0] if result else None
         except sqlite3.Error as e:
-            print(f"Database error: {e}")
-            return None
+            st.error(f"Database error: {e}")
         finally:
-            if conn:
-                conn.close()
+            conn.close()
