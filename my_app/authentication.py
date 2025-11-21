@@ -3,7 +3,7 @@ import bcrypt
 from database import DatabaseManager
 
 # Initialize database
-db = DatabaseManager("DATA/intelligence_platform.db")
+db = DatabaseManager("CW2_CST1510_M01039453/DATA/intelligence_platform.db")
 
 # Login form
 username = st.text_input("Username")
