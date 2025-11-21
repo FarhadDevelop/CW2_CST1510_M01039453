@@ -1,6 +1,6 @@
 import sqlite3
 import pandas as pd
-from app.data.db import connect_database
+from data.db import connect_database
 
 def insert_incident(conn, timestamp, category, severity, status, description):
     """
