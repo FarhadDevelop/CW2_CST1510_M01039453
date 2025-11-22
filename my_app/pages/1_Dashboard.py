@@ -1,6 +1,6 @@
 import streamlit as st
 from data.db import connect_database
-from data.incidents import get_all_incidents, insert_incident
+from data.incidents import get_all_incidents, insert_incident, update_incident_status
 
 st.set_page_config(page_title="Cyber Incidents Dashboard", layout="wide")
 
@@ -48,6 +48,22 @@ with st.form("new_incident"):
         insert_incident(conn, timestamp, category, severity, status, description)
         st.success("New incident reported successfully!")
         st.rerun()  # Refresh the page to show the new incident
+
+# UPDATE: Form to update an existing incident status using the function from incidents.py
+st.subheader("Update an Existing Incident Status")
+with st.form("update_incident"):
+    incident_ids = incidents['incident_id'].tolist()
+    incident_id = st.selectbox("Select Incident ID", incident_ids)
+    new_status = st.selectbox("New Status", ["Open", "In Progress", "Resolved", "Closed"])
+
+    # Form submit button
+    update_submitted = st.form_submit_button("Update Status")
+
+    # Handle form submission
+    if update_submitted:
+        update_incident_status(conn, incident_id, new_status)
+        st.success(f"Incident ID {incident_id} status updated successfully to {new_status}!")
+        st.rerun()  # Refresh the page to show the updated status
 
 # Logout button
 st.divider()
