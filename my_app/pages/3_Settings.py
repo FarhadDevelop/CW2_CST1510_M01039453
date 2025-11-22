@@ -26,12 +26,25 @@ if not st.session_state.logged_in:
 st.title("⚙️ Settings")
 st.write("Adjust your application settings here.")
 
-st.header("Account Settings")
-st.text_input("Username", value=st.session_state.username)
-st.text_input("Email", value="")
-st.text_input("Role", value=st.session_state.role)
-st.button("Update Settings")
-if st.button("Update Settings"):
-    st.success("Settings updated successfully!")
+# Display current user information
+st.subheader("User Information")
+st.write(f"**Username:** {st.session_state.username}")
+st.write(f"**Role:** {st.session_state.role}")
+
+# Allow user to update their username
+new_username = st.text_input("Update Username", value=st.session_state.username)
+if st.button("Update Username"):
+    st.session_state.username = new_username
+    st.success("Username updated successfully!")
+    st.rerun()
+
+# Allow user to update their role
+new_role = st.selectbox("Update Role", options=["user", "admin"], index=["user", "admin"].index(st.session_state.role))
+if st.button("Update Role"):
+    st.session_state.role = new_role
+    st.success("Role updated successfully!")
+    st.rerun()
+
+st.write("Use the options above to customize your experience.")
 
 
