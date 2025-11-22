@@ -16,7 +16,6 @@ if not st.session_state.logged_in:
     st.stop()
 
 st.title("📊 Cyber Incidents Analytics")
-st.write("This page will display analytics related to cyber incidents.")
 
 # Security metrics
 st.header("Security Metrics")
@@ -44,3 +43,11 @@ threat_data = {
 
 st.header("Threat Data")
 st.bar_chart(threat_data)
+
+# Logout button
+st.divider()
+if st.button("Log out"):
+    st.session_state.logged_in = False
+    st.session_state.username = ""
+    st.success("You have been logged out.")
+    st.switch_page("Home.py")
