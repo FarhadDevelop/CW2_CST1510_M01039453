@@ -12,10 +12,10 @@ if "username" not in st.session_state:
 if not st.session_state.logged_in:
     st.error("You must be logged in to view the analytics.")
     if st.button("Go to login page"):
-        st.switch_page("pages/1_Dashboard.py")      # back to the first page
+        st.switch_page("Home.py")      # back to the first page
     st.stop()
 
-st.title("Cyber Incidents Analytics", page_icon="📊")
+st.title("📊 Cyber Incidents Analytics")
 st.write("This page will display analytics related to cyber incidents.")
 
 # Security metrics
