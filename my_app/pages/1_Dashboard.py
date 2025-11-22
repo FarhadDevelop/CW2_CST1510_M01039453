@@ -10,7 +10,7 @@ if "logged_in" not in st.session_state:
 if "username" not in st.session_state:
     st.session_state.username = ""
 if "role" not in st.session_state:
-    st.session_state.role = ""
+    st.session_state.role = "user"
 
 # Guard: if not logged in, send user back
 if not st.session_state.logged_in:
@@ -22,7 +22,7 @@ if not st.session_state.logged_in:
 # Connect to the database
 conn = connect_database()
 
-# If logged in, show dashboard content
+# If logged in, show user info and dashboard.
 st.title("Cyber Incidents Dashboard")
 st.success(f"Hello, **{st.session_state.username}**! You are logged in as **{st.session_state.role}**.")
 
