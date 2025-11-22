@@ -1,6 +1,6 @@
 import streamlit as st
 from data.db import connect_database
-from data.incidents import get_all_incidents, insert_incident, update_incident_status
+from data.incidents import get_all_incidents, insert_incident, update_incident_status, delete_incident
 
 st.set_page_config(page_title="Cyber Incidents Dashboard", layout="wide")
 
@@ -64,6 +64,21 @@ with st.form("update_incident"):
         update_incident_status(conn, incident_id, new_status)
         st.success(f"Incident ID {incident_id} status updated successfully to {new_status}!")
         st.rerun()  # Refresh the page to show the updated status
+
+# DELETE: Form to delete an incident
+st.subheader("Delete an Incident")
+with st.form("delete_incident"):
+    incident_ids = incidents['incident_id'].tolist()
+    incident_id_to_delete = st.selectbox("Select Incident ID to Delete", incident_ids)
+
+    # Form submit button
+    delete_submitted = st.form_submit_button("Delete Incident")
+
+    # Handle form submission
+    if delete_submitted:
+        delete_incident(conn, incident_id_to_delete)
+        st.success(f"Incident ID {incident_id_to_delete} deleted successfully!")
+        st.rerun()  # Refresh the page to show the updated incidents
 
 # Logout button
 st.divider()
