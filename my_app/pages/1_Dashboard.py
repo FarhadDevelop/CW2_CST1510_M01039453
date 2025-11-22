@@ -2,7 +2,7 @@ import streamlit as st
 from data.db import connect_database
 from data.incidents import get_all_incidents, insert_incident
 
-st.set_page_config(page_title="Cyber Incidents Dashboard", page_icon="📊", layout="wide")
+st.set_page_config(page_title="Cyber Incidents Dashboard", layout="wide")
 
 # Ensure state keys exist (in case user opens this page first)
 if "logged_in" not in st.session_state:
@@ -21,7 +21,7 @@ if not st.session_state.logged_in:
 conn = connect_database()
 
 # If logged in, show dashboard content
-st.title("📊 Cyber Incidents Dashboard")
+st.title("Cyber Incidents Dashboard")
 st.success(f"Hello, **{st.session_state.username}**! You are logged in.")
 
 # READ: Display all incidents in a table
@@ -32,18 +32,18 @@ st.dataframe(incidents, use_container_width=True)
 # CREATE: Form to add a new incident
 st.subheader("Report a New Cyber Incident")
 with st.form("new_incident"):
-    description = st.text_area("Incident Description")
-    severity = st.selectbox("Severity Level", ["Low", "Medium", "High", "Critical"])
-    status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
-    category = st.selectbox("Category", ["Phishing", "Malware", "Misconfiguration", "DDoS", "Unauthorized Access"])
     timestamp = st.text_input("Timestamp (YYYY-MM-DD HH:MM:SS.ffffff)")
+    category = st.selectbox("Category", ["Phishing", "Malware", "Misconfiguration", "DDoS", "Unauthorized Access"])
+    severity = st.selectbox("Severity", ["Low", "Medium", "High", "Critical"])
+    status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
+    description = st.text_input("Description")
 
     # Form submit button
     submitted = st.form_submit_button("Report Incident")
 
     # Handle form submission
     if submitted:
-        insert_incident(conn, description, severity, status, category, timestamp)
+        insert_incident(conn, timestamp, category, severity, status, description)
         st.success("New incident reported successfully!")
         st.rerun()  # Refresh the page to show the new incident
 
