@@ -56,4 +56,4 @@ if st.button("Log out"):
     st.session_state.username = ""
     st.session_state.role = ""
     st.success("You have been logged out.")
-    st.switch_page("Home")
+    st.switch_page("Home.py")
