@@ -9,6 +9,8 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 if "username" not in st.session_state:
     st.session_state.username = ""
+if "role" not in st.session_state:
+    st.session_state.role = ""
 
 # Guard: if not logged in, send user back
 if not st.session_state.logged_in:
@@ -22,7 +24,7 @@ conn = connect_database()
 
 # If logged in, show dashboard content
 st.title("Cyber Incidents Dashboard")
-st.success(f"Hello, **{st.session_state.username}**! You are logged in.")
+st.success(f"Hello, **{st.session_state.username}**! You are logged in as **{st.session_state.role}**.")
 
 # READ: Display all incidents in a table
 incidents = get_all_incidents(conn)
@@ -52,5 +54,6 @@ st.divider()
 if st.button("Log out"):
     st.session_state.logged_in = False
     st.session_state.username = ""
+    st.session_state.role = ""
     st.success("You have been logged out.")
     st.switch_page("Home.py")
