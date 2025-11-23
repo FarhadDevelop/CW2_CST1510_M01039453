@@ -46,6 +46,7 @@ if st.button("Update Role"):
     st.rerun()
 
 # Logout button
+st.divider()
 if st.button("Log out"):
     st.session_state.logged_in = False
     st.session_state.username = ""
