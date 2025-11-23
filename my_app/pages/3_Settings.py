@@ -45,6 +45,13 @@ if st.button("Update Role"):
     st.success("Role updated successfully!")
     st.rerun()
 
-st.write("Use the options above to customize your experience.")
+# Logout button
+if st.button("Log out"):
+    st.session_state.logged_in = False
+    st.session_state.username = ""
+    st.session_state.role = "user"
+    st.success("You have been logged out.")
+    st.switch_page("Home.py")  # Redirect to Home page after logout
+
 
 
