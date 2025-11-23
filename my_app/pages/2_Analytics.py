@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+import plotly.express as px
 
 st.set_page_config(page_title="Cyber Incidents Analytics", page_icon="📊", layout="wide")
 
@@ -42,7 +44,13 @@ threat_data = {
 }
 
 st.header("Threat Data")
-st.bar_chart(threat_data)
+threat_df = pd.DataFrame({
+    "Threat Type": list(threat_data.keys()),
+    "Count": list(threat_data.values())
+})
+
+fig_threats = px.bar(threat_df, x="Threat Type", y="Count", title="Threat Types Distribution", color="Count")
+st.plotly_chart(fig_threats, use_container_width=True)
 
 # Logout button
 st.divider()
