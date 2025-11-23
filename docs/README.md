@@ -61,3 +61,36 @@ A SQLite-backed database layer and CSV ingestion pipeline that persist multi-dom
   - Load CSV domain data into DB tables and print row counts
   - Demonstrate inserts, reads, updates, deletes for users, incidents, datasets, and tickets
   - Commit and close the database connection
+
+# Week 9: UI Layer (Streamlit Interface)
+- Student Name: Farhad Binu Manaf
+- Student ID: M01039453
+- Course: CST1510 - CW2 - Multi-Domain Intelligence Platform
+
+## Project Description
+A multi-page Streamlit application providing a user-friendly interface for secure authentication, cyber incident management, analytics, and user settings. The UI layer connects to the backend database and services, enabling interactive workflows for users and administrators.
+
+## Features
+- **Multi-page navigation** using Streamlit’s page system (`Home`, `Dashboard`, `Analytics`, `Settings`)
+- **Secure login and registration** with session state management
+- **Role-based access control** for user/admin features
+- **Cyber Incidents Dashboard**: view, add, update, and delete incidents with real-time feedback
+- **Analytics Page**: interactive metrics and visualizations (Plotly) for threat data
+- **Settings Page**: view and update user profile, change role, and log out
+- **Session state** persists user authentication and profile across pages
+- **Logout functionality** on all pages for secure session termination
+
+## Technical Implementation
+- **Framework**: Streamlit for rapid UI development
+- **Navigation**: `st.switch_page()` for page transitions; tabs for sub-features
+- **Session State**: `st.session_state` stores authentication, user info, and role
+- **Database Integration**: UI calls backend functions for CRUD operations (incidents, users)
+- **Forms and Validation**: Streamlit forms for incident reporting, status updates, and registration
+- **Visualizations**: Plotly charts for analytics (threat types, metrics)
+- **Error Handling**: Guards prevent unauthorized access; feedback via `st.error`, `st.success`, etc.
+- **File Structure**:
+  - `Home.py`: Login and registration interface
+  - `pages/1_Dashboard.py`: Incident management dashboard
+  - `pages/2_Analytics.py`: Security analytics and metrics
+  - `pages/3_Settings.py`: User profile and settings
+
