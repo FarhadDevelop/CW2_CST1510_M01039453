@@ -1,10 +1,16 @@
 import streamlit as st
 from data.db import connect_database
+from database import DatabaseManager
 from data.incidents import get_all_incidents, get_incidents_by_severity, get_incidents_by_status, insert_incident, update_incident_status, delete_incident
 from data.datasets import get_all_datasets_metadata, create_dataset_metadata, update_dataset_rows, delete_dataset_metadata
 from data.tickets import get_all_tickets, insert_ticket, update_ticket_status, delete_ticket
 
+# Set page configuration
 st.set_page_config(page_title="Dashboard", layout="wide")
+
+# Initialize database manager
+db_manager = DatabaseManager("CW2_CST1510_M01039453/DATA/intelligence_platform.db")
+
 
 # Ensure state keys exist (in case user opens this page first)
 if "logged_in" not in st.session_state:
