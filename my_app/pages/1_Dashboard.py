@@ -76,7 +76,7 @@ if domain == "Data Science":
 
 if domain == "IT":
     st.header("IT Ticket Management")
-    tickets = get_all_tickets(conn)
+    tickets = get_all_tickets()
     st.dataframe(tickets)
     # Add more ticket management functionalities here (CRUD operations)
     st.subheader("Create New Ticket")
