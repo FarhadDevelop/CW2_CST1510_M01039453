@@ -12,6 +12,9 @@ if "logged_in" not in st.session_state:
 if "username" not in st.session_state:
     st.session_state["username"] = ""
 
+if "role" not in st.session_state:
+    st.session_state.role = ""
+
 st.title("🔐 Welcome")
 
 # If already logged in, go straight to dashboard
@@ -52,16 +55,18 @@ with tab_register:
     new_username = st.text_input("Enter a username", key="register_username")
     new_password = st.text_input("Enter a password", type="password", key="register_password")
     confirm_password = st.text_input("Confirm password", type="password", key="register_confirm")
+    new_role = st.selectbox("Select Role", ["user", "admin"])
 
     # Validation and registration
     if st.button("Create account"):
         if not new_username or not new_password:
-            st.warning("Please fill in all fields.")
+            st.error("Username and password cannot be empty.")
         elif new_password != confirm_password:
             st.error("Passwords do not match.")
         elif new_username in st.session_state.users:
             st.error("Username already exists. Choose another one.")
         else:
             st.session_state.users[new_username] = new_password
+            st.session_state.role = new_role
             st.success("Account created! You can now log in from the Login tab.")
             st.info("Tip: Go to the Login tab and sign in with your new account.")
