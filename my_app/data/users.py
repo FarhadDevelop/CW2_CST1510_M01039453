@@ -1,5 +1,5 @@
 import sqlite3
-from app.data.db import connect_database
+from data.db import connect_database
 
 def insert_user(username, password_hash, role):
     """
