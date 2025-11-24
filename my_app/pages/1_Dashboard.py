@@ -11,7 +11,6 @@ st.set_page_config(page_title="Dashboard", layout="wide")
 # Initialize database manager
 db_manager = DatabaseManager("CW2_CST1510_M01039453/DATA/intelligence_platform.db")
 
-
 # Ensure state keys exist (in case user opens this page first)
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
