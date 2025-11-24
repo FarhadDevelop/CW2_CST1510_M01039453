@@ -42,7 +42,7 @@ with tab_2:
         # Combine date and time inputs into a single timestamp
         date = st.date_input("Date of Incident")
         time = st.time_input("Time of Incident")
-        timestamp = f"{date} {time}"
+        timestamp = f"Timestamp {date} {time}"
         category = st.selectbox("Category", ["Phishing", "Malware", "Misconfiguration", "DDoS", "Unauthorized Access"])
         severity = st.selectbox("Severity", ["Low", "Medium", "High", "Critical"])
         status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
@@ -50,7 +50,7 @@ with tab_2:
 
         submitted = st.form_submit_button("Report Incident")
 
-        if submitted:
+        if submitted and description:
             insert_incident(conn, timestamp, category, severity, status, description)
             st.success("New incident reported successfully!")
             st.rerun()  # Refresh the page to show the new incident
