@@ -38,15 +38,20 @@ with tab_1:
 # CREATE: Form to add a new incident in tab 2
 with tab_2:
     st.header("Report a New Cyber Incident")
-    with st.form("new_incident_form"):
+    # Only users with 'admin' role can add incidents
+    if st.session_state.role != "admin":
+        st.warning("You do not have permission to add new incidents unless you are an admin.")
+    else:
+        st.subheader("New Incident Details")
+        with st.form("new_incident_form"):
         # Combine date and time inputs into a single timestamp with seconds
-        timestamp = st.date_input("Date of Incident").strftime("%Y-%m-%d") + " " + st.time_input("Time of Incident").strftime("%H:%M:%S")
-        category = st.selectbox("Category", ["Phishing", "Malware", "Misconfiguration", "DDoS", "Unauthorized Access"])
-        severity = st.selectbox("Severity", ["Low", "Medium", "High", "Critical"])
-        status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
-        description = st.text_input("Description")
+            timestamp = st.date_input("Date of Incident").strftime("%Y-%m-%d") + " " + st.time_input("Time of Incident").strftime("%H:%M:%S")
+            category = st.selectbox("Category", ["Phishing", "Malware", "Misconfiguration", "DDoS", "Unauthorized Access"])
+            severity = st.selectbox("Severity", ["Low", "Medium", "High", "Critical"])
+            status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
+            description = st.text_input("Description")
 
-        submitted = st.form_submit_button("Report Incident")
+            submitted = st.form_submit_button("Report Incident")
 
         if submitted and description:
             insert_incident(conn, timestamp, category, severity, status, description)
@@ -56,31 +61,39 @@ with tab_2:
 # UPDATE: Form to update an existing incident status in tab 3
 with tab_3:
     st.header("Manage Existing Cyber Incidents")
+    # Only users with 'admin' role can update incidents
+    if st.session_state.role != "admin":
+        st.warning("You do not have permission to manage incidents unless you are an admin.")
+    else:
+        # UPDATE: Form to update an existing incident status
+        st.subheader("Update an Existing Incident Status")
+        with st.form("update_incident_form"):
+            incidents = get_all_incidents(conn)
+            incident_ids = incidents['incident_id'].tolist()
+            incident_id = st.selectbox("Select Incident ID", incident_ids)
+            new_status = st.selectbox("New Status", ["Open", "In Progress", "Resolved", "Closed"])
 
-    # UPDATE: Form to update an existing incident status
-    st.subheader("Update an Existing Incident Status")
-    with st.form("update_incident_form"):
-        incidents = get_all_incidents(conn)
-        incident_ids = incidents['incident_id'].tolist()
-        incident_id = st.selectbox("Select Incident ID", incident_ids)
-        new_status = st.selectbox("New Status", ["Open", "In Progress", "Resolved", "Closed"])
+            update_submitted = st.form_submit_button("Update Status")
 
-        update_submitted = st.form_submit_button("Update Status")
-
-        if update_submitted:
-            update_incident_status(conn, incident_id, new_status)
-            st.success(f"Incident ID {incident_id} status updated successfully to {new_status}!")
-            st.rerun()  # Refresh the page to show the updated status
+            if update_submitted:
+                update_incident_status(conn, incident_id, new_status)
+                st.success(f"Incident ID {incident_id} status updated successfully to {new_status}!")
+                st.rerun()  # Refresh the page to show the updated status
 
 # DELETE: Form to delete an incident in tab 4
 with tab_4:
     st.header("Delete a Cyber Incident")
-    with st.form("delete_incident_form"):
-        incidents = get_all_incidents(conn)
-        incident_ids = incidents['incident_id'].tolist()
-        incident_id_to_delete = st.selectbox("Select Incident ID to Delete", incident_ids)
+    # Only users with 'admin' role can delete incidents
+    if st.session_state.role != "admin":
+        st.warning("You do not have permission to delete incidents unless you are an admin.")
+    else:
+        st.subheader("Delete an Incident")
+        with st.form("delete_incident_form"):
+            incidents = get_all_incidents(conn)
+            incident_ids = incidents['incident_id'].tolist()
+            incident_id_to_delete = st.selectbox("Select Incident ID to Delete", incident_ids)
 
-        delete_submitted = st.form_submit_button("Delete Incident")
+            delete_submitted = st.form_submit_button("Delete Incident")
 
         if delete_submitted:
             delete_incident(conn, incident_id_to_delete)
