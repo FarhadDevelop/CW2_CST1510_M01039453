@@ -61,29 +61,24 @@ A SQLite-backed database layer and CSV ingestion pipeline that persist multi-dom
 - Course: CST1510 - CW2 - Multi-Domain Intelligence Platform
 
 ## Project Description
-A multi-page Streamlit application providing a user-friendly interface for secure authentication, cyber incident management, analytics, and user settings. The UI layer connects to the backend database and services, enabling interactive workflows for users and administrators.
+A multi-page Streamlit application providing a unified user interface for authentication, dashboard analytics, and CRUD management of cyber incidents, datasets, and IT tickets. The UI layer integrates with the database and authentication services, enforces role-based access control, and delivers interactive analytics and management tools for each domain.
 
 ## Features
-- **Multi-page navigation** using Streamlit’s page system (`Home`, `Dashboard`, `Analytics`, `Settings`)
-- **Secure login and registration** with session state management
-- **Role-based access control** for user/admin features
-- **Cyber Incidents Dashboard**: view, add, update, and delete incidents with real-time feedback
-- **Analytics Page**: interactive metrics and visualizations (Plotly) for threat data
-- **Settings Page**: view and update user profile, change role, and log out
-- **Session state** persists user authentication and profile across pages
-- **Logout functionality** on all pages for secure session termination
+- Streamlit-based multi-page navigation (`Home`, `Dashboard`, `Analytics`, `Settings`)
+- Secure login and registration forms with password hashing and role selection
+- Role-based access control: admin users can perform CRUD operations, regular users have read-only access
+- Dashboard page for viewing and managing incidents, datasets, and tickets with dynamic forms and tables
+- Analytics page with domain-specific metrics, charts, and visualizations (bar charts, line charts, metrics)
+- Settings page for updating user roles and logging out
+- Session state management for authentication and user context
+- Responsive UI elements: forms, tables, charts, metrics, and navigation buttons
 
 ## Technical Implementation
-- **Framework**: Streamlit for rapid UI development
-- **Navigation**: `st.switch_page()` for page transitions; tabs for sub-features
-- **Session State**: `st.session_state` stores authentication, user info, and role
-- **Database Integration**: UI calls backend functions for CRUD operations (incidents, users)
-- **Forms and Validation**: Streamlit forms for incident reporting, status updates, and registration
-- **Visualizations**: Plotly charts for analytics (threat types, metrics)
-- **Error Handling**: Guards prevent unauthorized access; feedback via `st.error`, `st.success`, etc.
-- **File Structure**:
-  - `Home.py`: Login and registration interface
-  - `pages/1_Dashboard.py`: Incident management dashboard
-  - `pages/2_Analytics.py`: Security analytics and metrics
-  - `pages/3_Settings.py`: User profile and settings
+- UI Framework: Streamlit with multi-page support (`pages/` directory)
+- Authentication: Integrated with database-backed user management and bcrypt password hashing
+- Session State: Uses `st.session_state` for tracking login status, username, and role
+- Navigation: `st.switch_page` for page transitions and access control
+- CRUD Operations: Forms and buttons trigger database functions for incidents, datasets, and tickets
+- Analytics: Uses `st.metric`, `st.bar_chart`, and `st.line_chart` for interactive visualizations
+- Role Enforcement: Admin-only controls for create, update, and delete actions; warnings for unauthorized actions
 
