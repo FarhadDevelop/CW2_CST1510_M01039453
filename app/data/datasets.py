@@ -39,14 +39,14 @@ def get_all_datasets_metadata(conn):
     df = pd.read_sql_query(query, conn)
     return df
 
-def update_dataset_uploaded_by(conn, dataset_id, new_uploaded_by):
+def update_dataset_rows(conn, dataset_id, rows):
     """
-    Update the uploaded_by field of a dataset metadata record.
+    Update the number of rows for a dataset metadata record.
 
     Args:
         conn (sqlite3.Connection): The database connection.
         dataset_id (int): The ID of the dataset metadata record to update.
-        new_uploaded_by (str): The new uploaded_by value.
+        rows (int): The new number of rows.
     
     Returns:
         int: The number of rows affected.
@@ -54,9 +54,9 @@ def update_dataset_uploaded_by(conn, dataset_id, new_uploaded_by):
     cursor = conn.cursor()
     cursor.execute("""
         UPDATE datasets_metadata
-        SET uploaded_by = ?
+        SET rows = ?
         WHERE dataset_id = ?
-    """, (new_uploaded_by, dataset_id))
+    """, (rows, dataset_id))
     conn.commit()
     return cursor.rowcount
 
