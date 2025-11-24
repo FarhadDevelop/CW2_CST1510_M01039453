@@ -238,7 +238,7 @@ def main():
     print(datasets_df)
 
     # Insert a ticket
-    insert_ticket('High', 'System crash on login', 'Open', 'Alice', '2024-06-01 10:00:00.000000', 48)
+    insert_ticket('High', 'System crash on login', 'Open', 'Alice', '2024-06-01 10:00:00', 48)
     print("\nInserted Ticket:")
     inserted_ticket = get_all_tickets()
     print(inserted_ticket)
