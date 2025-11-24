@@ -17,7 +17,7 @@ if not st.session_state.logged_in:
         st.switch_page("Home.py")      # back to the first page
     st.stop()
 
-st.title("Multi-Domain Intelligence Platform 📊")
+st.title("📊 Multi-Domain Intelligence Platform Analytics")
 
 # Domain selection
 domain = st.selectbox("Select Domain", ["Cybersecurity", "Data Science", "IT"])
