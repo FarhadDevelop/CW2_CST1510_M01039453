@@ -6,7 +6,7 @@ from app.data.db import connect_database
 from app.data.schema import create_all_tables
 from app.services.user_service import migrate_users_from_file, register_user, login_user
 from app.data.users import insert_user, get_user_by_username, update_user_role, delete_user
-from app.data.incidents import insert_incident, get_all_incidents, update_incident_status, delete_incident
+from app.data.incidents import insert_incident, get_all_incidents, get_incidents_by_severity, get_incidents_by_status, update_incident_status, delete_incident
 from app.data.datasets import create_dataset_metadata, get_all_datasets_metadata, update_dataset_uploaded_by, delete_dataset_metadata
 from app.data.tickets import insert_ticket, get_all_tickets, update_ticket_status, delete_ticket
 
@@ -121,6 +121,16 @@ def main():
     print("\nAll Cyber Incidents:")
     incidents_df = pd.read_sql_query("SELECT * FROM cyber_incidents", conn)
     print(incidents_df)
+
+    # Display incidents by severity
+    print("\nCyber Incidents by Severity (High):")
+    high_severity_df = pd.read_sql_query("SELECT * FROM cyber_incidents WHERE severity = 'High'", conn)
+    print(high_severity_df)
+
+    # Display incidents by status
+    print("\nCyber Incidents by Status (Open):")
+    open_status_df = pd.read_sql_query("SELECT * FROM cyber_incidents WHERE status = 'Open'", conn)
+    print(open_status_df)
 
     # Display all datasets metadata
     print("\nAll Datasets Metadata:")
