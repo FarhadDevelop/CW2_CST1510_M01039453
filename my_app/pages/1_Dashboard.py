@@ -1,8 +1,10 @@
 import streamlit as st
 from data.db import connect_database
-from data.incidents import get_all_incidents, insert_incident, update_incident_status, delete_incident
+from data.incidents import get_all_incidents, get_incidents_by_severity, get_incidents_by_status, insert_incident, update_incident_status, delete_incident
+from data.datasets import get_all_datasets_metadata, create_dataset_metadata, update_dataset_rows
+from data.tickets import get_all_tickets, insert_ticket, update_ticket_status, delete_ticket
 
-st.set_page_config(page_title="Cyber Incidents Dashboard", layout="wide")
+st.set_page_config(page_title="Dashboard", layout="wide")
 
 # Ensure state keys exist (in case user opens this page first)
 if "logged_in" not in st.session_state:
@@ -23,82 +25,78 @@ if not st.session_state.logged_in:
 conn = connect_database()
 
 # If logged in, show user info and dashboard.
-st.title("Cyber Incidents Dashboard")
+st.title("Multi-Domain Intelligence Platform")
 st.success(f"Hello, **{st.session_state.username}**! You are logged in as **{st.session_state.role}**.")
 
-# Tabs for different functionalities
-tab_1, tab_2, tab_3, tab_4 = st.tabs(["View Incidents", "Add Incident", "Manage Incidents", "Delete Incident"])
+# Domain selection
+domain = st.selectbox("Select Domain", ["Cybersecurity", "Data Science", "IT"])
 
-# VIEW: Display all incidents in tab 1
-with tab_1:
-    st.header("View All Cyber Incidents")
+# Depending on the selected domain, show relevant functionalities
+if domain == "Cybersecurity":
+    st.header("Cybersecurity Incident Management")
     incidents = get_all_incidents(conn)
-    st.dataframe(incidents, use_container_width=True)
+    st.dataframe(incidents)
+    # Add more incident management functionalities here (CRUD operations)
+    st.subheader("Add New Incident")
+    with st.form("add_incident_form"):
+        # Combine date and time inputs into a single timestamp
+        date = st.date_input("Date")
+        time = st.time_input("Time")
+        timestamp = f"{date} {time}"
+        
+        category = st.selectbox("Severity", ["Low", "Medium", "High", "Critical"])
+        severity = st.selectbox("Category", ["Phishing", "Malware", "DDoS", "Misconfiguration", "Unauthorized Access"])
+        status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
+        description = st.text_area("Description")
+        submitted = st.form_submit_button("Add Incident")   
 
-# CREATE: Form to add a new incident in tab 2
-with tab_2:
-    st.header("Report a New Cyber Incident")
-    # Only users with 'admin' role can add incidents
-    if st.session_state.role != "admin":
-        st.warning("You do not have permission to add new incidents unless you are an admin.")
-    else:
-        st.subheader("New Incident Details")
-        with st.form("new_incident_form"):
-        # Combine date and time inputs into a single timestamp with seconds
-            timestamp = st.date_input("Date of Incident").strftime("%Y-%m-%d") + " " + st.time_input("Time of Incident").strftime("%H:%M:%S")
-            category = st.selectbox("Category", ["Phishing", "Malware", "Misconfiguration", "DDoS", "Unauthorized Access"])
-            severity = st.selectbox("Severity", ["Low", "Medium", "High", "Critical"])
-            status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
-            description = st.text_input("Description")
+        if submitted:
+            insert_incident(conn, timestamp, category, severity, status, description)
+            st.success("Incident added successfully.")
+            st.rerun()
 
-            submitted = st.form_submit_button("Report Incident")
+if domain == "Data Science":
+    st.header("Dataset Management")
+    datasets = get_all_datasets_metadata(conn)
+    st.dataframe(datasets)
+    # Add more dataset management functionalities here (CRUD operations)
+    st.subheader("Add New Dataset Metadata")
+    with st.form("add_dataset_form"):
+        name = st.text_input("Dataset Name")
+        num_rows = st.number_input("Number of Rows", min_value=0)
+        num_columns = st.number_input("Number of Columns", min_value=0)
+        uploaded_by = st.selectbox("Uploaded By", ["data_scientist (Alice Smith)", "it_admin (Carol Lee)", "cyber_analyst (Bob Johnson)"])
+        upload_date = st.date_input("Upload Date")
+        submitted = st.form_submit_button("Add Dataset Metadata")
+
+        if submitted:
+            create_dataset_metadata(conn, name, num_rows, num_columns, uploaded_by, upload_date)
+            st.success("Dataset metadata added successfully.")
+            st.rerun()
+
+if domain == "IT":
+    st.header("IT Ticket Management")
+    tickets = get_all_tickets(conn)
+    st.dataframe(tickets)
+    # Add more ticket management functionalities here (CRUD operations)
+    st.subheader("Create New Ticket")
+    with st.form("create_ticket_form"):
+        priority = st.selectbox("Priority", ["Low", "Medium", "High", "Critical"])
+        description = st.text_area("Description")
+        status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
+        assigned_to = st.selectbox("Assigned To", ["IT_Support_A (Alice Smith)", "IT_Support_B (Bob Johnson)", "IT_Admin (Charlie Lee)"])
+        
+        # Combine date and time inputs into a single timestamp
+        date = st.date_input("Date")
+        time = st.time_input("Time")
+        created_at = f"{date} {time}"
+        resolution_time_hours = st.number_input("Estimated Resolution Time (hours)", min_value=0)
+        submitted = st.form_submit_button("Create Ticket")
 
         if submitted and description:
-            insert_incident(conn, timestamp, category, severity, status, description)
-            st.success("New incident reported successfully!")
-            st.rerun()  # Refresh the page to show the new incident
-
-# UPDATE: Form to update an existing incident status in tab 3
-with tab_3:
-    st.header("Manage Existing Cyber Incidents")
-    # Only users with 'admin' role can update incidents
-    if st.session_state.role != "admin":
-        st.warning("You do not have permission to manage incidents unless you are an admin.")
-    else:
-        # UPDATE: Form to update an existing incident status
-        st.subheader("Update an Existing Incident Status")
-        with st.form("update_incident_form"):
-            incidents = get_all_incidents(conn)
-            incident_ids = incidents['incident_id'].tolist()
-            incident_id = st.selectbox("Select Incident ID", incident_ids)
-            new_status = st.selectbox("New Status", ["Open", "In Progress", "Resolved", "Closed"])
-
-            update_submitted = st.form_submit_button("Update Status")
-
-            if update_submitted:
-                update_incident_status(conn, incident_id, new_status)
-                st.success(f"Incident ID {incident_id} status updated successfully to {new_status}!")
-                st.rerun()  # Refresh the page to show the updated status
-
-# DELETE: Form to delete an incident in tab 4
-with tab_4:
-    st.header("Delete a Cyber Incident")
-    # Only users with 'admin' role can delete incidents
-    if st.session_state.role != "admin":
-        st.warning("You do not have permission to delete incidents unless you are an admin.")
-    else:
-        st.subheader("Delete an Incident")
-        with st.form("delete_incident_form"):
-            incidents = get_all_incidents(conn)
-            incident_ids = incidents['incident_id'].tolist()
-            incident_id_to_delete = st.selectbox("Select Incident ID to Delete", incident_ids)
-
-            delete_submitted = st.form_submit_button("Delete Incident")
-
-        if delete_submitted:
-            delete_incident(conn, incident_id_to_delete)
-            st.success(f"Incident ID {incident_id_to_delete} deleted successfully!")
-            st.rerun()  # Refresh the page to show the updated incidents
+            insert_ticket(conn, priority, description, status, assigned_to, created_at, resolution_time_hours)
+            st.success("Ticket created successfully.")
+            st.rerun()
 
 # Logout button
 st.divider()
