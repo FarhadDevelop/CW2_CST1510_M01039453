@@ -17,7 +17,7 @@ if "username" not in st.session_state:
     st.session_state["username"] = ""
 
 if "role" not in st.session_state:
-    st.session_state.role = ""
+    st.session_state["role"] = ""
 
 st.title("🔐 Welcome")
 
@@ -57,8 +57,7 @@ with tab_login:
                     st.info(message)
                     # Redirect to dashboard page
                     st.switch_page("pages/1_Dashboard.py")
-            else:
-                st.error("Invalid username or password.")
+
             users = st.session_state.users
         if login_username in users and users[login_username] == login_password:
             st.session_state.logged_in = True
@@ -91,6 +90,6 @@ with tab_register:
             st.error("Username already exists. Choose another one.")
         else:
             st.session_state.users[new_username] = new_password
-            st.session_state.role = new_role
+            st.session_state["role"] = new_role
             st.success("Account created! You can now log in from the Login tab.")
             st.info("Tip: Go to the Login tab and sign in with your new account.")
