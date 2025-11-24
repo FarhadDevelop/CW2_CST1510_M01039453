@@ -39,7 +39,10 @@ with tab_1:
 with tab_2:
     st.header("Report a New Cyber Incident")
     with st.form("new_incident_form"):
-        timestamp = st.text_input("Timestamp (YYYY-MM-DD HH:MM:SS.ffffff)")
+        # Combine date and time inputs into a single timestamp
+        date = st.date_input("Date of Incident")
+        time = st.time_input("Time of Incident")
+        timestamp = f"{date} {time}"
         category = st.selectbox("Category", ["Phishing", "Malware", "Misconfiguration", "DDoS", "Unauthorized Access"])
         severity = st.selectbox("Severity", ["Low", "Medium", "High", "Critical"])
         status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
