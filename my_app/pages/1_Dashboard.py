@@ -10,7 +10,7 @@ if "logged_in" not in st.session_state:
 if "username" not in st.session_state:
     st.session_state.username = ""
 if "role" not in st.session_state:
-    st.session_state.role = "user"
+    st.session_state.role = ""
 
 # Guard: if not logged in, send user back
 if not st.session_state.logged_in:
