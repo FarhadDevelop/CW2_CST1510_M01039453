@@ -124,12 +124,12 @@ def main():
 
     # Display incidents by severity
     print("\nCyber Incidents by Severity (High):")
-    high_severity_df = pd.read_sql_query("SELECT * FROM cyber_incidents WHERE severity = 'High'", conn)
+    high_severity_df = get_incidents_by_severity(conn, 'High')
     print(high_severity_df)
 
     # Display incidents by status
     print("\nCyber Incidents by Status (Open):")
-    open_status_df = pd.read_sql_query("SELECT * FROM cyber_incidents WHERE status = 'Open'", conn)
+    open_status_df = get_incidents_by_status(conn, 'Open')
     print(open_status_df)
 
     # Display all datasets metadata
