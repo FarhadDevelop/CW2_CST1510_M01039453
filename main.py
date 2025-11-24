@@ -122,16 +122,6 @@ def main():
     incidents_df = pd.read_sql_query("SELECT * FROM cyber_incidents", conn)
     print(incidents_df)
 
-    # Display incidents by severity
-    print("\nCyber Incidents by Severity (High):")
-    high_severity_df = get_incidents_by_severity(conn, 'High')
-    print(high_severity_df)
-
-    # Display incidents by status
-    print("\nCyber Incidents by Status (Open):")
-    open_status_df = get_incidents_by_status(conn, 'Open')
-    print(open_status_df)
-
     # Display all datasets metadata
     print("\nAll Datasets Metadata:")
     datasets_df = pd.read_sql_query("SELECT * FROM datasets_metadata", conn)
@@ -165,6 +155,16 @@ def main():
     deleted_user = get_user_by_username('bob')
     print(deleted_user)
 
+    # Display incidents by severity
+    print("\nCyber Incidents by Severity (High):")
+    high_severity_df = get_incidents_by_severity(conn, 'High')
+    print(high_severity_df)
+
+    # Display incidents by status
+    print("\nCyber Incidents by Status (Open):")
+    open_status_df = get_incidents_by_status(conn, 'Open')
+    print(open_status_df)
+
     # Insert a cyber incident
     insert_incident(conn, '2024-06-01 12:00:00', 'Phishing', 'High', 'Open', 'Suspicious email reported by user')
     print("\nInserted Cyber Incident:")
@@ -190,7 +190,7 @@ def main():
     print(incidents_df)
 
     # Create dataset metadata
-    create_dataset_metadata(conn, 'Sales_Data', 1000, 10, 'Charlie', '2024-06-01')
+    create_dataset_metadata(conn, 'Sales_Data', 1000, 10, 'it_admin (Carol Lee)', '2024-06-01')
     print("\nInserted Dataset Metadata:")
     inserted_dataset = get_all_datasets_metadata(conn)
     print(inserted_dataset)
