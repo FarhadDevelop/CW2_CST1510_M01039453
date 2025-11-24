@@ -7,7 +7,7 @@ from app.data.schema import create_all_tables
 from app.services.user_service import migrate_users_from_file, register_user, login_user
 from app.data.users import insert_user, get_user_by_username, update_user_role, delete_user
 from app.data.incidents import insert_incident, get_all_incidents, get_incidents_by_severity, get_incidents_by_status, update_incident_status, delete_incident
-from app.data.datasets import create_dataset_metadata, get_all_datasets_metadata, update_dataset_uploaded_by, delete_dataset_metadata
+from app.data.datasets import create_dataset_metadata, get_all_datasets_metadata, update_dataset_rows, delete_dataset_metadata
 from app.data.tickets import insert_ticket, get_all_tickets, update_ticket_status, delete_ticket
 
 # Define paths
@@ -201,33 +201,9 @@ def main():
     datasets_df = get_all_datasets_metadata(conn)
     print(datasets_df)
 
-    # Update dataset uploaded_by #1
-    update_dataset_uploaded_by(conn, 1, 'Dave')
-    print("\nUpdated Dataset Uploaded By:")
-    datasets_df = get_all_datasets_metadata(conn)
-    print(datasets_df)
-
-    # Update dataset uploaded_by #2
-    update_dataset_uploaded_by(conn, 2, 'Eve')
-    print("\nUpdated Dataset Uploaded By:")
-    datasets_df = get_all_datasets_metadata(conn)
-    print(datasets_df)
-
-    # Update dataset uploaded_by #3
-    update_dataset_uploaded_by(conn, 3, 'Dave')
-    print("\nUpdated Dataset Uploaded By:")
-    datasets_df = get_all_datasets_metadata(conn)
-    print(datasets_df)
-
-    # Update dataset uploaded_by #4
-    update_dataset_uploaded_by(conn, 4, 'Dave')
-    print("\nUpdated Dataset Uploaded By:")
-    datasets_df = get_all_datasets_metadata(conn)   
-    print(datasets_df)
-
-    # Update dataset uploaded_by #5
-    update_dataset_uploaded_by(conn, 5, 'Frank')
-    print("\nUpdated Dataset Uploaded By:")
+    # Update dataset rows
+    update_dataset_rows(conn, 1, 1200)
+    print("\nUpdated Dataset Rows:")
     datasets_df = get_all_datasets_metadata(conn)
     print(datasets_df)
 
@@ -238,7 +214,7 @@ def main():
     print(datasets_df)
 
     # Insert a ticket
-    insert_ticket('High', 'System crash on login', 'Open', 'Alice', '2024-06-01 10:00:00', 48)
+    insert_ticket('High', 'System crash on login', 'Open', 'Bob Johnson', '2024-06-01 10:00:00', 48)
     print("\nInserted Ticket:")
     inserted_ticket = get_all_tickets()
     print(inserted_ticket)
