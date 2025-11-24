@@ -166,7 +166,7 @@ def main():
     print(deleted_user)
 
     # Insert a cyber incident
-    insert_incident(conn, '2024-06-01 12:00:00.000000', 'Phishing', 'High', 'Open', 'Suspicious email reported by user')
+    insert_incident(conn, '2024-06-01 12:00:00', 'Phishing', 'High', 'Open', 'Suspicious email reported by user')
     print("\nInserted Cyber Incident:")
     inserted_incident = get_all_incidents(conn)
     print(inserted_incident)
