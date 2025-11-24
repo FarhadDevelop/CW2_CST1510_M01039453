@@ -1,5 +1,9 @@
 import streamlit as st
+import bcrypt
+from database import DatabaseManager
+from authentication import register_user, login_user
 
+# Set page configuration
 st.set_page_config(page_title="Login / Register", page_icon="🔑", layout="centered")
 
 # Initialise session state
@@ -25,6 +29,9 @@ if st.session_state.logged_in:
         st.switch_page("pages/1_Dashboard.py")
     st.stop()
 
+# Initialize database
+db = DatabaseManager("CW2_CST1510_M01039453/DATA/intelligence_platform.db")
+
 # Tabs: Login / Register
 tab_login, tab_register = st.tabs(["Login", "Register"])
 
@@ -37,10 +44,26 @@ with tab_login:
 
     if st.button("Log in", type="primary"):
         # Validate credentials
-        users = st.session_state.users
+        if login_username and login_password:
+            # Get hashed password from database
+            stored_hash = db.get_user_password_hash(login_username)
+            if stored_hash:
+                success, message = login_user(login_username, login_password)
+                if success:
+                    st.session_state.logged_in = True
+                    st.session_state.username = login_username
+                    st.session_state.role = db.get_user_role(login_username)
+                    st.success(f"Welcome back, {login_username}!")
+                    st.info(message)
+                    # Redirect to dashboard page
+                    st.switch_page("pages/1_Dashboard.py")
+            else:
+                st.error("Invalid username or password.")
+            users = st.session_state.users
         if login_username in users and users[login_username] == login_password:
             st.session_state.logged_in = True
             st.session_state.username = login_username
+            st.session_state.role = db.get_user_role(login_username)
             st.success(f"Welcome back, {login_username}!")
 
             # Redirect to dashboard page
@@ -59,6 +82,7 @@ with tab_register:
 
     # Validation and registration
     if st.button("Create account"):
+        register_user(new_username, new_password, new_role)
         if not new_username or not new_password:
             st.error("Username and password cannot be empty.")
         elif new_password != confirm_password:
