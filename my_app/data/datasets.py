@@ -1,6 +1,5 @@
 import sqlite3
 import pandas as pd
-from app.data.db import connect_database
 
 def create_dataset_metadata(conn, name, rows, columns, uploaded_by, upload_date):
     """
