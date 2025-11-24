@@ -201,8 +201,32 @@ def main():
     datasets_df = get_all_datasets_metadata(conn)
     print(datasets_df)
 
-    # Update dataset uploaded_by
+    # Update dataset uploaded_by #1
     update_dataset_uploaded_by(conn, 1, 'Dave')
+    print("\nUpdated Dataset Uploaded By:")
+    datasets_df = get_all_datasets_metadata(conn)
+    print(datasets_df)
+
+    # Update dataset uploaded_by #2
+    update_dataset_uploaded_by(conn, 2, 'Eve')
+    print("\nUpdated Dataset Uploaded By:")
+    datasets_df = get_all_datasets_metadata(conn)
+    print(datasets_df)
+
+    # Update dataset uploaded_by #3
+    update_dataset_uploaded_by(conn, 3, 'Dave')
+    print("\nUpdated Dataset Uploaded By:")
+    datasets_df = get_all_datasets_metadata(conn)
+    print(datasets_df)
+
+    # Update dataset uploaded_by #4
+    update_dataset_uploaded_by(conn, 4, 'Dave')
+    print("\nUpdated Dataset Uploaded By:")
+    datasets_df = get_all_datasets_metadata(conn)   
+    print(datasets_df)
+
+    # Update dataset uploaded_by #5
+    update_dataset_uploaded_by(conn, 5, 'Frank')
     print("\nUpdated Dataset Uploaded By:")
     datasets_df = get_all_datasets_metadata(conn)
     print(datasets_df)
