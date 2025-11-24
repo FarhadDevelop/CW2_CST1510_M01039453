@@ -1,4 +1,5 @@
 import streamlit as st
+from data.users import update_user_role
 
 # Page configuration
 set_page_config = st.set_page_config(
@@ -24,23 +25,17 @@ if not st.session_state.logged_in:
 
 # Settings Page Content
 st.title("⚙️ Settings")
-st.write("Adjust your application settings here.")
+st.write("Adjust your account role here.")
 
 # Display current user information
 st.subheader("User Information")
 st.write(f"**Username:** {st.session_state.username}")
 st.write(f"**Role:** {st.session_state.role}")
 
-# Allow user to update their username
-new_username = st.text_input("Update Username", value=st.session_state.username)
-if st.button("Update Username"):
-    st.session_state.username = new_username
-    st.success("Username updated successfully!")
-    st.rerun()
-
 # Allow user to update their role
 new_role = st.selectbox("Update Role", options=["user", "admin"], index=["user", "admin"].index(st.session_state.role))
 if st.button("Update Role"):
+    update_user_role(st.session_state.username, new_role)
     st.session_state.role = new_role
     st.success("Role updated successfully!")
     st.rerun()
