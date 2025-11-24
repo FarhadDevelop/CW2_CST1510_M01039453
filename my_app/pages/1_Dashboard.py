@@ -6,7 +6,7 @@ from data.datasets import get_all_datasets_metadata, create_dataset_metadata, up
 from data.tickets import get_all_tickets, insert_ticket, update_ticket_status, delete_ticket
 
 # Set page configuration
-st.set_page_config(page_title="Dashboard", layout="wide")
+st.set_page_config(page_title="Dashboard", page_icon="📊", layout="wide")
 
 # Initialize database manager
 db_manager = DatabaseManager("CW2_CST1510_M01039453/DATA/intelligence_platform.db")
@@ -30,7 +30,7 @@ if not st.session_state.logged_in:
 conn = connect_database()
 
 # Dashboard title with icon and welcome message
-st.title("Multi-Domain Intelligence Platform 🚀")
+st.title("📊 Multi-Domain Intelligence Platform Dashboard")
 st.success(f"Hello, **{st.session_state.username}**! You are logged in as **{st.session_state.role}**.")
 
 # Domain selection
