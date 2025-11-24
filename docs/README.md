@@ -51,16 +51,9 @@ A SQLite-backed database layer and CSV ingestion pipeline that persist multi-dom
 - Services and Modules:
   - `app.services.user_service`: `migrate_users_from_file`, `register_user`, `login_user`
   - `app.data.users`: `insert_user`, `get_user_by_username`, `update_user_role`, `delete_user`
-  - `app.data.incidents`: `insert_incident`, `get_all_incidents`, `update_incident_status`, `delete_incident`
-  - `app.data.datasets`: `create_dataset_metadata`, `get_all_datasets_metadata`, `update_dataset_uploaded_by`, `delete_dataset_metadata`
+  - `app.data.incidents`: `insert_incident`, `get_all_incidents`, `get_incidents_by_severity`, `get_incidents_by_status`, `update_incident_status`, `delete_incident`
+  - `app.data.datasets`: `create_dataset_metadata`, `get_all_datasets_metadata`, `update_dataset_rows`, `delete_dataset_metadata`
   - `app.data.tickets`: `insert_ticket`, `get_all_tickets`, `update_ticket_status`, `delete_ticket`
-- Testing/Demo Flow (as implemented in `main.py`):
-  - Connect and create tables
-  - Migrate users from file into DB
-  - Register and login sample user
-  - Load CSV domain data into DB tables and print row counts
-  - Demonstrate inserts, reads, updates, deletes for users, incidents, datasets, and tickets
-  - Commit and close the database connection
 
 # Week 9: UI Layer (Streamlit Interface)
 - Student Name: Farhad Binu Manaf
