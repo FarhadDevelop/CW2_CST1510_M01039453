@@ -81,7 +81,6 @@ with tab_register:
 
     # Validation and registration
     if st.button("Create account"):
-        register_user(new_username, new_password, new_role)
         if not new_username or not new_password:
             st.error("Username and password cannot be empty.")
         elif new_password != confirm_password:
@@ -89,6 +88,7 @@ with tab_register:
         elif new_username in st.session_state.users:
             st.error("Username already exists. Choose another one.")
         else:
+            register_user(new_username, new_password, new_role)
             st.session_state.users[new_username] = new_password
             st.session_state["role"] = new_role
             st.success("Account created! You can now log in from the Login tab.")
