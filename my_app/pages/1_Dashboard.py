@@ -68,15 +68,13 @@ if domain == "Cybersecurity":
             severity_filter = st.selectbox("Filter by Severity", ["Low", "Medium", "High", "Critical"])
             status_filter = st.selectbox("Filter by Status", ["Open", "In Progress", "Resolved", "Closed"])
             submitted = st.form_submit_button("Apply Filters")
+        
+        if submitted:
+            severity_filtered = get_incidents_by_severity(conn, severity_filter)
+            status_filtered = get_incidents_by_status(conn, status_filter)
+            filtered_incidents = severity_filtered.merge(status_filtered)
+            st.dataframe(filtered_incidents)
 
-            if submitted:
-                if severity_filter:
-                    incidents_by_severity = get_incidents_by_severity(conn, severity_filter)
-                    st.dataframe(incidents_by_severity)
-        if status_filter:
-            incidents_by_status = get_incidents_by_status(conn, status_filter)
-            st.dataframe(incidents_by_status)
-    
         st.subheader("Update Incident Status")
         with st.form("update_incident_form"):
             incident_id = st.number_input("Incident ID", min_value=1)
