@@ -69,7 +69,7 @@ A multi-page Streamlit application providing a unified user interface for authen
 - Role-based access control: admin users can perform CRUD operations, regular users have read-only access
 - Dashboard page for viewing and managing incidents, datasets, and tickets with dynamic forms and tables
 - Analytics page with domain-specific metrics, charts, and visualizations (bar charts, line charts, metrics)
-- Settings page for updating user roles and logging out
+- Settings page for updating user role and the option to delete their account
 - Session state management for authentication and user context
 - Responsive UI elements: forms, tables, charts, metrics, and navigation buttons
 
@@ -81,4 +81,10 @@ A multi-page Streamlit application providing a unified user interface for authen
 - CRUD Operations: Forms and buttons trigger database functions for incidents, datasets, and tickets
 - Analytics: Uses `st.metric`, `st.bar_chart`, and `st.line_chart` for interactive visualizations
 - Role Enforcement: Admin-only controls for create, update, and delete actions; warnings for unauthorized actions
+
+## Data Disclaimer
+- Disclaimer: The `Analytics` page displays synthetic (fake) data generated solely for testing and demonstration purposes. The data and any charts, metrics, or insights shown do not represent real incidents, real users, or real-world events and should not be used for operational decision-making.
+- Purpose: Test UI/UX, validate visualizations, and demonstrate features during development and assessment.
+- Privacy: No actual personal or sensitive data is included in these test datasets.
+
 
