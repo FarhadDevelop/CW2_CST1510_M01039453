@@ -83,8 +83,8 @@ A multi-page Streamlit application providing a unified user interface for authen
 - Role Enforcement: Admin-only controls for create, update, and delete actions; warnings for unauthorized actions
 
 ## Data Disclaimer
-- Disclaimer: The `Analytics` page displays synthetic (fake) data generated solely for testing and demonstration purposes. The data and any charts, metrics, or insights shown do not represent real incidents, real users, or real-world events and should not be used for operational decision-making.
-- Purpose: Test UI/UX, validate visualizations, and demonstrate features during development and assessment.
+- Disclaimer: The `Analytics` page as well as all 4 tables created in Week 8 displays some of the synthetic (fake) data generated solely for testing and demonstration purposes. The data and any charts, metrics, or insights shown do not represent real incidents, real users, or real-world events and should not be used for operational decision-making.
+- Purpose: To test UI/UX, validate visualizations, and demonstrate features during development and assessment.
 - Privacy: No actual personal or sensitive data is included in these test datasets.
 
 
