@@ -1,5 +1,5 @@
 import streamlit as st
-from data.users import update_user_role
+from data.users import update_user_role, delete_user
 
 # Page configuration
 set_page_config = st.set_page_config(
@@ -25,7 +25,7 @@ if not st.session_state.logged_in:
 
 # Settings Page Content
 st.title("⚙️ Settings")
-st.write("Adjust your account role here.")
+st.write("Adjust your account settings here.")
 
 # Display current user information
 st.subheader("User Information")
@@ -40,14 +40,19 @@ if st.button("Update Role"):
     st.success("Role updated successfully!")
     st.rerun()
 
-# Logout button
+# Allow user to delete their account
 st.divider()
-if st.button("Log out"):
+st.subheader("Delete Account")
+st.write("Warning: This action is irreversible.")
+if st.button("Delete Account"):
+    delete_user(st.session_state.username)
     st.session_state.logged_in = False
     st.session_state.username = ""
     st.session_state.role = "user"
-    st.success("You have been logged out.")
-    st.switch_page("Home.py")  # Redirect to Home page after logout
+    st.success("Your account has been deleted.")
+    st.switch_page("Home.py")  # Redirect to Home page after deletion
+
+
 
 
 
