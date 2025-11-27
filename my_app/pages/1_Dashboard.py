@@ -163,7 +163,7 @@ if domain == "IT":
             submitted = st.form_submit_button("Create Ticket")
 
         if submitted and description:
-            insert_ticket(conn, priority, description, status, assigned_to, created_at, resolution_time_hours)
+            insert_ticket(priority, description, status, assigned_to, created_at, resolution_time_hours)
             st.success("Ticket created successfully.")
             st.rerun()
     
@@ -173,7 +173,7 @@ if domain == "IT":
             new_status = st.selectbox("New Status", ["Open", "In Progress", "Resolved", "Closed", "Waiting for User"])
             submitted = st.form_submit_button("Update Ticket Status")
         if submitted:
-            update_ticket_status(conn, ticket_id, new_status)
+            update_ticket_status(ticket_id, new_status)
             st.success("Ticket status updated successfully.")
             st.rerun()
     
@@ -183,7 +183,7 @@ if domain == "IT":
             submitted = st.form_submit_button("Delete Ticket")
 
         if submitted:
-            delete_ticket(conn, ticket_id_del)
+            delete_ticket(ticket_id_del)
             st.success("Ticket deleted successfully.")
             st.rerun()
 
