@@ -77,7 +77,7 @@ if domain == "Cybersecurity":
 
         st.subheader("Update Incident Status")
         with st.form("update_incident_form"):
-            incident_id = st.number_input("Incident ID", min_value=1)
+            incident_id = st.number_input("Incident ID", min_value=1000)
             new_status = st.selectbox("New Status", ["Open", "In Progress", "Resolved", "Closed"])
             submitted = st.form_submit_button("Update Status")
         
@@ -88,7 +88,7 @@ if domain == "Cybersecurity":
     
         st.subheader("Delete Incident")
         with st.form("delete_incident_form"):
-            incident_id_del = st.number_input("Incident ID to Delete", min_value=1)
+            incident_id_del = st.number_input("Incident ID to Delete", min_value=1000)
             submitted = st.form_submit_button("Delete Incident")
 
         if submitted:
@@ -151,8 +151,8 @@ if domain == "IT":
         with st.form("create_ticket_form"):
             priority = st.selectbox("Priority", ["Low", "Medium", "High", "Critical"])
             description = st.text_area("Description")
-            status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed"])
-            assigned_to = st.selectbox("Assigned To", ["IT_Support_A (Alice Smith)", "IT_Support_B (Bob Johnson)", "IT_Admin (Charlie Lee)"])
+            status = st.selectbox("Status", ["Open", "In Progress", "Resolved", "Closed", "Waiting for User"])
+            assigned_to = st.selectbox("Assigned To", ["IT_Support_A (Alice Smith)", "IT_Support_B (Bob Johnson)", "IT_Support_C (Charlie Lee)"])
         
         # Combine date and time inputs into a single timestamp
             date = st.date_input("Date")
@@ -169,8 +169,8 @@ if domain == "IT":
     
         st.subheader("Update Ticket Status")
         with st.form("update_ticket_form"):
-            ticket_id = st.number_input("Ticket ID", min_value=1)
-            new_status = st.selectbox("New Status", ["Open", "In Progress", "Resolved", "Closed"])
+            ticket_id = st.number_input("Ticket ID", min_value=2000)
+            new_status = st.selectbox("New Status", ["Open", "In Progress", "Resolved", "Closed", "Waiting for User"])
             submitted = st.form_submit_button("Update Ticket Status")
         if submitted:
             update_ticket_status(conn, ticket_id, new_status)
@@ -179,7 +179,7 @@ if domain == "IT":
     
         st.subheader("Delete Ticket")
         with st.form("delete_ticket_form"):
-            ticket_id_del = st.number_input("Ticket ID to Delete", min_value=1)
+            ticket_id_del = st.number_input("Ticket ID to Delete", min_value=2000)
             submitted = st.form_submit_button("Delete Ticket")
 
         if submitted:
