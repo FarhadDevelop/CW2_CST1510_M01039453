@@ -4,12 +4,35 @@ from openai import OpenAI
 # Initialize OpenAI client
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-# Page title
-st.title("💬 ChatGPT with Streaming")
+# Page configuration
+st.set_page_config(page_title="💬 ChatGPT Assistant", page_icon="💬", layout="wide")
+
+# Title
+st.title("💬 ChatGPT - OpenAI API")
+st.caption("Powered by GPT-4o")
 
 # Initialize session state
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+# Sidebar with controls
+with st.sidebar:
+    st.subheader("Chat Controls")
+    
+    # Display message count
+    message_count = len([m for m in st.session_state.messages if m["role"] != "system"])
+    st.metric("Messages", message_count)
+
+    # Clear chat button
+    if st.button("🗑️ Clear Chat", use_container_width=True):
+        st.session_state.messages = []
+        st.rerun()
+    
+    # Model selection
+    model = st.selectbox("Model", options=["gpt-4o", "gpt-4o-mini"], index=0)
+
+    # Temperature slider
+    temperature = st.slider("Temperature", min_value=0.0, max_value=2.0, value=1.0, step=0.1, help="Higher values make output more random.")
 
 # Display all previous messages
 for message in st.session_state.messages:
@@ -29,8 +52,9 @@ if prompt:
 
     # Call OpenAI API with streaming
     completion = client.chat.completions.create(
-        model="gpt-4o",
+        model=model,
         messages=st.session_state.messages,
+        temperature=temperature,
         stream=True
     )
 
@@ -44,7 +68,10 @@ if prompt:
             delta = chunk.choices[0].delta
             if delta.content:
                 full_reply += delta.content
-                container.markdown(full_reply)   
+                container.markdown(full_reply + "▌")  # Add cursor effect
 
-    # Save complete response to session state
+        # Remove cursor and show final response
+        container.markdown(full_reply)   
+
+    # Save assistant response
     st.session_state.messages.append({"role": "assistant", "content": full_reply})
