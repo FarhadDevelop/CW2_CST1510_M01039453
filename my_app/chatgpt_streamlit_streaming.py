@@ -28,12 +28,6 @@ with st.sidebar:
         st.session_state.messages = []
         st.rerun()
     
-    # Model selection
-    model = st.selectbox("Model", options=["gpt-4o", "gpt-4o-mini"], index=0)
-
-    # Temperature slider
-    temperature = st.slider("Temperature", min_value=0.0, max_value=2.0, value=1.0, step=0.1, help="Higher values make output more random.")
-
 # Display all previous messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
@@ -52,9 +46,8 @@ if prompt:
 
     # Call OpenAI API with streaming
     completion = client.chat.completions.create(
-        model=model,
+        model="gpt-4o",
         messages=st.session_state.messages,
-        temperature=temperature,
         stream=True
     )
 
