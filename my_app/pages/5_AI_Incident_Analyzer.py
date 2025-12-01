@@ -35,7 +35,7 @@ else:
     incident_records = []
 
 incident_list = [
-    f"{inc['incident_id']} - {inc['category']} ({inc['severity']})"
+    f"{inc['incident_id']}"
     for inc in incident_records
 ]
 
@@ -88,6 +88,16 @@ if st.button("🤖 Analyze with AI", type="primary"):
 
         # Display AI analysis
         st.subheader("🧠 AI Analysis")
-        st.write(response.choices[0].message.content)
+
+        container = st.empty()
+        analysis_text = ""
+        
+        for chunk in response:
+            delta = chunk.choices[0].delta
+            if delta.content:
+                analysis_text += delta.content
+            container.markdown(analysis_text + "▌")  # Show typing indicator
+
+        container.markdown(analysis_text)  # Final output without typing indicator
 
 conn.close()
