@@ -20,13 +20,40 @@ if not st.session_state.logged_in:
         st.switch_page("Home.py")      # back to the first page
     st.stop()
 
+
 # Page title and caption
 st.title("💬 AI Assistant")
 st.caption("Powered by GPT-4o")
 
-# Initialize session state
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+# Domain selection
+domain = st.selectbox("Select Domain", ["Cybersecurity", "Data Science", "IT"])
+
+# Initialize session state with system prompt for the selected domain
+if "system_prompt" not in st.session_state or st.session_state.get("domain") != domain:
+    st.session_state.domain = domain
+    if domain == "Cybersecurity":
+        st.session_state.system_prompt = (
+            """You are a cybersecurity expert. 
+            Analyze incidents, threats, and vulnerabilities. 
+            Provide technical guidance using MITRE ATT&CK, CVE references.
+            Prioritize actionable recommendations."""
+        )
+    elif domain == "Data Science":
+        st.session_state.system_prompt = (
+            """You are a data science expert. 
+            Help with data analysis, visualization, statistical methods, and machine learning. 
+            Explain concepts clearly and suggest appropriate techniques."""
+        )
+    elif domain == "IT":
+        st.session_state.system_prompt = (
+            """You are an IT operations expert. 
+            Help troubleshoot issues, optimize systems, manage tickets, and provide infrastructure guidance. 
+            Focus on practical solutions."""
+        )
+
+    # Reset messages when domain changes
+    st.session_state.messages = [{"role": "system", "content": st.session_state.system_prompt}]
+    st.rerun()
 
 # Sidebar with controls
 with st.sidebar:
@@ -38,16 +65,22 @@ with st.sidebar:
 
     # Clear chat button
     if st.button("🗑️ Clear Chat", use_container_width=True):
-        st.session_state.messages = []
+        st.session_state.messages = [{"role": "system", "content": st.session_state.system_prompt}]
         st.rerun()
-    
+
 # Display all previous messages
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    if message["role"] != "system":
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
 
-# Get user input
-prompt = st.chat_input("Say something...")
+# Get user input based on domain
+if domain == "Cybersecurity":
+    prompt = st.chat_input("Ask about cybersecurity...")
+elif domain == "Data Science":
+    prompt = st.chat_input("Ask about data science...")
+elif domain == "IT":
+    prompt = st.chat_input("Ask about IT operations...")
 
 if prompt:
     # Display user message
