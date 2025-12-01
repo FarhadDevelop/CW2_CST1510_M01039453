@@ -87,4 +87,36 @@ A multi-page Streamlit application providing a unified user interface for authen
 - Purpose: To test UI/UX, validate visualizations, and demonstrate features during development and assessment.
 - Privacy: No actual personal or sensitive data is included in these test datasets.
 
+# Week 10: AI Intelligence Layer
+- Student Name: Farhad Binu Manaf
+- Student ID: M01039453
+- Course: CST1510 - CW2 - Multi-Domain Intelligence Platform
+
+## Project Description
+An AI-powered intelligence layer integrating OpenAI GPT-4o for advanced incident analysis and multi-domain expert assistance. This layer provides two Streamlit pages: an interactive AI Assistant for domain-specific prompts (Cybersecurity, Data Science, IT) and an AI Incident Analyzer that generates root cause analysis and actionable recommendations for selected cyber incidents using generative AI.
+
+## Features
+- AI Assistant page with domain selection (Cybersecurity, Data Science, IT) and persistent chat history
+- Context-aware system prompts tailored to each domain for expert-level guidance
+- Streaming chat interface powered by GPT-4o for real-time responses
+- Chat controls: clear chat, message count, and sidebar controls
+- AI Incident Analyzer page for selecting and analyzing incidents from the database
+- Automated incident analysis: root cause, immediate actions, long-term prevention, and risk assessment
+- Secure access: only authenticated users can use AI features
+- Integration with database-backed incident records for contextual analysis
+
+## Technical Implementation
+- OpenAI API: GPT-4o accessed via `openai` Python client with API key from Streamlit secrets
+- AI Assistant: `my_app/pages/4_AI_Assistant.py` implements multi-domain chat with session state and streaming responses
+- AI Incident Analyzer: `my_app/pages/5_AI_Incident_Analyzer.py` fetches incidents from the database and streams AI-generated analysis
+- Session State: `st.session_state` manages authentication, chat history, domain context, and system prompts
+- Streaming: Both pages use OpenAI's streaming API for incremental response display with typing indicators
+- Access Control: Pages enforce login status and redirect unauthenticated users to the login page
+- UI: Responsive Streamlit components including chat input, selectbox, metrics, and markdown containers
+
+## Data Disclaimer
+- Disclaimer: All AI-generated insights, analyses, and recommendations are for demonstration and educational purposes only. The system uses synthetic data and does not provide real-world security advice or operational guidance.
+- Purpose: To showcase generative AI integration, validate user experience, and demonstrate advanced analytics features for assessment.
+- Privacy: No real personal or sensitive data is processed or exposed in the AI layer.
+
 
