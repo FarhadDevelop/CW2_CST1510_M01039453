@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 # Set page configuration
 st.set_page_config(page_title="Analytics", page_icon="📊", layout="wide")
@@ -47,19 +48,15 @@ if domain == "Cybersecurity":
         "Intrusion": 46
     }
 
-    st.header("Threat Data")
-    threat_df = pd.DataFrame({
-        "Threat Type": list(threat_data.keys()),
-        "Count": list(threat_data.values())
-    })
-    
-    st.markdown("### Threats by Type")
-    st.bar_chart(threat_df, x="Threat Type", y="Count")
+    threat_df = pd.DataFrame(list(threat_data.items()), columns=["Threat Type", "Count"])
+    fig = px.bar(threat_df, x="Threat Type", y="Count", title="Threats by Type", color="Count")
+    st.plotly_chart(fig, use_container_width=True)
 
 elif domain == "Data Science":
     st.header("Data Science Analytics")
     st.write("Here you can find various data science analytics and visualizations.")
     
+    # Model performance metrics
     col1, col2, col3 = st.columns(3)
 
     with col1:
@@ -71,16 +68,16 @@ elif domain == "Data Science":
     with col3:
         st.metric("Recall", "90.1%")
     
-    # Model training history
-    history = {
+    # Training history
+    history = pd.DataFrame({
         "epoch": [1, 2, 3, 4, 5],
-        "accuracy": [75, 82, 86, 90, 92.5],
-        "loss": [0.8, 0.6, 0.4, 0.3, 0.2]
-    }
+        "loss": [0.65, 0.48, 0.35, 0.28, 0.22],
+        "accuracy": [0.70, 0.80, 0.85, 0.90, 0.94]
+    })
 
-    st.markdown("### Model Training History")
-    st.line_chart(history, x="epoch", y=["loss", "accuracy"])
-
+    fig = px.line(history, x="epoch", y=["loss", "accuracy"], title="Training History", labels={"value": "Metric Value", "epoch": "Epoch"})
+    st.plotly_chart(fig, use_container_width=True)
+    
 elif domain == "IT":
     st.header("IT Analytics")
     st.write("Here you can find various IT analytics and visualizations.")
@@ -103,8 +100,8 @@ elif domain == "IT":
         "Memory": [60, 62, 68, 70, 74, 76, 72]
     }
 
-    st.markdown("### Resource Usage Over Time")
-    st.line_chart(usage, x="time", y=["CPU", "Memory"])
+    fig = px.line(usage, x="time", y=["CPU", "Memory"], title="Resource Usage Over Time", labels={"value": "Usage (%)", "time": "Time"})
+    st.plotly_chart(fig, use_container_width=True)
 
 # Logout button
 st.divider()
