@@ -53,6 +53,8 @@ if "system_prompt" not in st.session_state or st.session_state.get("domain") != 
 
     # Reset messages when domain changes
     st.session_state.messages = [{"role": "system", "content": st.session_state.system_prompt}]
+    st.session_state.domain = domain
+    st.info(f"Domain changed to **{domain}**. Chat history reset.")
     st.rerun()
 
 # Sidebar with controls
