@@ -147,7 +147,7 @@ An AI-powered intelligence layer integrating OpenAI GPT-4o for advanced incident
    - Create a `.streamlit/secrets.toml` file in the project root
    - Add your OpenAI API key:
      ```
-     openai_api_key = "your_openai_api_key_here"
+     OPENAI_API_KEY = "your_openai_api_key_here"
      ```
 
 5. **Run the Streamlit application:**
@@ -156,7 +156,7 @@ An AI-powered intelligence layer integrating OpenAI GPT-4o for advanced incident
    ```
 
 6. **Access the application:**
-   - The app will open in your default browser at `http://localhost:8501`
+   - The app will open in your default browser
    - Register a new account or log in with existing credentials
    - Navigate through pages: Home, Dashboard, Analytics, Settings, AI Assistant, and AI Incident Analyzer
 
@@ -164,6 +164,6 @@ An AI-powered intelligence layer integrating OpenAI GPT-4o for advanced incident
 - Ensure all CSV files are present in the `DATA/` folder before running the app
 - The SQLite database (`intelligence_platform.db`) will be created automatically on first run by running `main.py` 
 - User data is securely hashed using bcrypt
-- For AI features, a valid OpenAI API key with GPT-4o access is required
+- For AI features, a valid OpenAI API key is required
 
 
