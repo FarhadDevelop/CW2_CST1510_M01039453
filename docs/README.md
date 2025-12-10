@@ -119,4 +119,51 @@ An AI-powered intelligence layer integrating OpenAI GPT-4o for advanced incident
 - Purpose: To showcase generative AI integration, validate user experience, and demonstrate advanced analytics features for assessment.
 - Privacy: No real personal or sensitive data is processed or exposed in the AI layer.
 
+# How to Run the App
+
+## Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
+
+## Installation Steps
+
+1. **Clone or navigate to the project directory:**
+   ```
+   cd path/to/CW2_CST1510_M01039453
+   ```
+
+2. **Create a virtual environment (recommended):**
+   ```
+   python -m venv venv
+   venv\Scripts\activate
+   ```
+
+3. **Install required dependencies:**
+   ```
+   pip install -r requirements.txt
+   ```
+
+4. **Set up environment variables:**
+   - Create a `.streamlit/secrets.toml` file in the project root
+   - Add your OpenAI API key:
+     ```
+     openai_api_key = "your_openai_api_key_here"
+     ```
+
+5. **Run the Streamlit application:**
+   ```
+   streamlit run my_app/Home.py
+   ```
+
+6. **Access the application:**
+   - The app will open in your default browser at `http://localhost:8501`
+   - Register a new account or log in with existing credentials
+   - Navigate through pages: Home, Dashboard, Analytics, Settings, AI Assistant, and AI Incident Analyzer
+
+## Notes
+- Ensure all CSV files are present in the `DATA/` folder before running the app
+- The SQLite database (`intelligence_platform.db`) will be created automatically on first run by running `main.py` 
+- User data is securely hashed using bcrypt
+- For AI features, a valid OpenAI API key with GPT-4o access is required
+
 
