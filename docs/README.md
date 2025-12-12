@@ -119,23 +119,61 @@ An AI-powered intelligence layer integrating OpenAI GPT-4o for advanced incident
 - Purpose: To showcase generative AI integration, validate user experience, and demonstrate advanced analytics features for assessment.
 - Privacy: No real personal or sensitive data is processed or exposed in the AI layer.
 
+## Overview of the architecture
+
+```
+CW2_CST1510_M01039453/
+│
+├── DATA/                        # Contains all CSV data files for ingestion
+│   ├── cyber_incidents.csv      # Synthetic cyber incident records
+│   ├── datasets_metadata.csv    # Metadata for datasets
+│   └── it_tickets.csv           # IT support ticket data
+│
+├── my_app/                      # Main Streamlit application code
+│   ├── Home.py                  # Streamlit entry point (main UI)
+│   └── pages/                   # Multi-page Streamlit UI components
+│       ├── 1_Dashboard.py             # Dashboard page for incidents, datasets, tickets
+│       ├── 2_Analytics.py             # Analytics and visualizations
+│       ├── 3_Settings.py              # User settings and account management
+│       ├── 4_AI_Assistant.py          # AI-powered multi-domain assistant
+│       └── 5_AI_Incident_Analyzer.py  # AI-driven incident analysis
+│
+├── app/                         # Backend logic and database modules
+│   ├── data/                    # Database schema and table management
+│   └── services/                # Business logic (e.g., authentication, user services)
+│
+├── requirements.txt             # Python dependencies for the project
+├── main.py                      # Entry point for DB setup, migration, and testing
+├── README.md                    # Project documentation (this file)
+└── .streamlit/
+    └── secrets.toml             # API keys and secrets for Streamlit (not committed for security)
+```
+
 # How to Run the App
 
 ## Prerequisites
 - Python 3.8 or higher
 - pip (Python package manager)
+- git for cloning the repository
 
 ## Installation Steps
 
 1. **Clone or navigate to the project directory:**
-   ```
-   cd path/to/CW2_CST1510_M01039453
+   ```sh
+   git clone <repo-url>
+   cd CW2_CST1510_M01039453
    ```
 
 2. **Create a virtual environment (recommended):**
+   - On Windows:
    ```
    python -m venv venv
    venv\Scripts\activate
+   ```
+   - On macOS/Linux:
+   ```
+   python3 -m venv venv
+   source venv/bin/activate
    ```
 
 3. **Install required dependencies:**
